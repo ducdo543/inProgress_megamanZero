@@ -33,7 +33,5 @@ function Entity:collides(entity)
 end
 
 function Entity:render()
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    love.graphics.setColor(1, 1, 1)
+    self.stateMachine:render()
 end
