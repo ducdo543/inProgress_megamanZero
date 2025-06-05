@@ -10,7 +10,7 @@ function EntityWalkState:update(dt)
 end
 
 function EntityWalkState:render()
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(1, 1, 1)
+    local anim = self.entity.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+        math.floor(self.entity.x), math.floor(self.entity.y))
 end

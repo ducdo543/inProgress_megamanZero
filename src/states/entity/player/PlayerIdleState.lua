@@ -16,4 +16,3 @@ function PlayerIdleState:update(dt)
     -- check if collide
     -- ...
 end
-

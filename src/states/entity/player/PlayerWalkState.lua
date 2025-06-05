@@ -12,6 +12,7 @@ function PlayerWalkState:update(dt)
     if love.keyboard.isDown('right') then 
         self.entity.direction = 'right'
         self.entity.x = self.entity.x + ENTITY_DEFS['player'].walkSpeed * dt
+        self.entity:changeAnimation('walk-right')
     end
 end
 

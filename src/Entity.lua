@@ -17,10 +17,30 @@ function Entity:init(def)
     self.stateMachine = def.stateMachine
 
     self.direction = "right"
+
+    self.animations = self:createAnimations(def.animations)
+end
+
+function Entity:createAnimations(animations)
+    local animationsReturned = {}
+
+    for k, animationDef in pairs(animations) do
+        animationsReturned[k] = Animation {
+            texture = animationDef.texture or 'entities',
+            frames = animationDef.frames,
+            interval = animationDef.interval
+        }
+    end
+
+    return animationsReturned
 end
 
 function Entity:changeState(state, params)
     self.stateMachine:change(state, params)
+end
+
+function Entity:changeAnimation(name)
+    self.currentAnimation = self.animations[name]
 end
 
 function Entity:update(dt)

@@ -2,6 +2,7 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     self.player = Player({
+        animations = ENTITY_DEFS['player'].animations,
         x = 120, y = 70,
         width = 10, height = 20,
         stateMachine = StateMachine {
