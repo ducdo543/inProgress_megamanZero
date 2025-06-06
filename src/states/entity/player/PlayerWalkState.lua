@@ -1,7 +1,8 @@
 PlayerWalkState = Class{__includes = EntityWalkState}
 
 function PlayerWalkState:init(player)
-    EntityWalkState.init(self, player)
+    self.entity = player
+    self.entity.offsetX = 6 -- windowsize offsetX = 30 -> virtual offsetX 30 / 5 = 6
 end
 
 function PlayerWalkState:update(dt)
@@ -13,6 +14,7 @@ function PlayerWalkState:update(dt)
         self.entity.direction = 'right'
         self.entity.x = self.entity.x + ENTITY_DEFS['player'].walkSpeed * dt
         self.entity:changeAnimation('walk-right')
+        -- print(self.entity.currentAnimation.frames[1])
     end
 end
 

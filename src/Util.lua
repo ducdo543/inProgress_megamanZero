@@ -1,6 +1,6 @@
 function GenerateQuads(atlas, tilewidth, tileheight)
-    local sheetWidth = atlas:getWidth() / tilewidth
-    local sheetHeight = atlas:getHeight() / tileheight
+    local sheetWidth = math.floor(atlas:getWidth() / tilewidth)
+    local sheetHeight = math.floor(atlas:getHeight() / tileheight)
 
     local sheetCounter = 1
     local spritesheet = {}

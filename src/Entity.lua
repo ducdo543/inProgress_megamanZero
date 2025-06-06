@@ -26,7 +26,7 @@ function Entity:createAnimations(animations)
 
     for k, animationDef in pairs(animations) do
         animationsReturned[k] = Animation {
-            texture = animationDef.texture or 'entities',
+            texture = animationDef.texture,
             frames = animationDef.frames,
             interval = animationDef.interval
         }
@@ -45,6 +45,9 @@ end
 
 function Entity:update(dt)
     self.stateMachine:update(dt)
+    if self.currentAnimation then
+        self.currentAnimation:update(dt)
+    end
 end
 
 function Entity:collides(entity)

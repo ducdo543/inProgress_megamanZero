@@ -1,6 +1,7 @@
 Animation = Class{}
 
 function Animation:init(def)
+    self.texture = def.texture
     self.frames = def.frames
     self.interval = def.interval
     self.timer = 0
