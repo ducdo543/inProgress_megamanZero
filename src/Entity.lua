@@ -28,7 +28,8 @@ function Entity:createAnimations(animations)
         animationsReturned[k] = Animation {
             texture = animationDef.texture,
             frames = animationDef.frames,
-            interval = animationDef.interval
+            interval = animationDef.interval,
+            ratio = animationDef.ratio
         }
     end
 

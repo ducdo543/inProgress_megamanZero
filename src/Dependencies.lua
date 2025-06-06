@@ -38,7 +38,7 @@ gTextures = {
 }
 
 gFrames = {
-    ['player-walk'] = GenerateQuads(gTextures['player-walk'], 130, 150)
+    ['player-walk'] = GenerateQuads(gTextures['player-walk'], 150, 150)
 }
 
 gFonts = {

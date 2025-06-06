@@ -4,6 +4,7 @@ function Animation:init(def)
     self.texture = def.texture
     self.frames = def.frames
     self.interval = def.interval
+    self.ratio = def.ratio
     self.timer = 0
     self.currentFrame = 1
 end
