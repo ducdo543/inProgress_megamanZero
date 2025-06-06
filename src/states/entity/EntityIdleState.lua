@@ -3,16 +3,13 @@ EntityIdleState = Class{__includes = BaseState}
 function EntityIdleState:init(entity)
     self.entity = entity 
 
-    -- để sau code thêm animation
-    -- self.animation
-
-    -- self.entity.currentAnimation
+    self.entity:changeAnimation('idle') 
 end
 
 function EntityIdleState:render()
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(1, 1, 1)
+    local anim = self.entity.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+        math.floor(self.entity.direction == 'left' and self.entity.x + self.entity.offsetX + self.entity.width  or self.entity.x - self.entity.offsetX), math.floor(self.entity.y), 0 , self.entity.direction == "left" and -anim.ratio or anim.ratio, anim.ratio)
 end
 
     

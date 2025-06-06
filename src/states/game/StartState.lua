@@ -18,5 +18,7 @@ function StartState:render()
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(1, 1, 0)
     love.graphics.printf('Press Enter', 0, VIRTUAL_HEIGHT / 2 + 16, VIRTUAL_WIDTH, 'center')
+
+    love.graphics.setColor(1, 1, 1)
 end
 

@@ -3,18 +3,18 @@ PlayerWalkState = Class{__includes = EntityWalkState}
 function PlayerWalkState:init(player)
     self.entity = player
     self.entity.offsetX = 10 -- windowsize offsetX = 50 -> virtual offsetX 50 / 5 = 10
+    self.entity:changeAnimation('walk')
 end
 
-function PlayerWalkState:update(dt)
+function PlayerWalkState:update(dt) 
     if love.keyboard.isDown('left') then 
         self.entity.direction = 'left'
-        self.entity.x = self.entity.x - ENTITY_DEFS['player'].walkSpeed * dt
-        self.entity:changeAnimation('walk-right')
-    end
-    if love.keyboard.isDown('right') then 
+        self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+    elseif love.keyboard.isDown('right') then 
         self.entity.direction = 'right'
-        self.entity.x = self.entity.x + ENTITY_DEFS['player'].walkSpeed * dt
-        self.entity:changeAnimation('walk-right')
+        self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+    else
+        self.entity:changeState('idle')
     end
 end
 

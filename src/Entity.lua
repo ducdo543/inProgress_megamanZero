@@ -18,7 +18,8 @@ function Entity:init(def)
 
     self.direction = "right"
 
-    self.animations = self:createAnimations(def.animations)
+    self.animations = def.animations
+    self.animations_motion = self:createAnimations(self.animations)
 end
 
 function Entity:createAnimations(animations)
@@ -41,7 +42,8 @@ function Entity:changeState(state, params)
 end
 
 function Entity:changeAnimation(name)
-    self.currentAnimation = self.animations[name]
+    self.animations_motion = self:createAnimations(self.animations) -- recreate Animation() for animations to turn back frame 1 first
+    self.currentAnimation = self.animations_motion[name]
 end
 
 function Entity:update(dt)

@@ -31,14 +31,19 @@ require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/entity/player/PlayerJumpState'
 
 
 gTextures = {
-    ['player-walk'] = love.graphics.newImage('graphics/player_walk.png')
+    ['player-walk'] = love.graphics.newImage('graphics/player_walk.png'),
+    ['player-idle'] = love.graphics.newImage('graphics/player_idle.png'),
+    ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png')
 }
 
 gFrames = {
-    ['player-walk'] = GenerateQuads(gTextures['player-walk'], 150, 150)
+    ['player-walk'] = GenerateQuads(gTextures['player-walk'], 150, 150),
+    ['player-idle'] = GenerateQuads(gTextures['player-idle'], 130, 1000),
+    ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 153)
 }
 
 gFonts = {
