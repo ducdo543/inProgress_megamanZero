@@ -26,7 +26,9 @@ ENTITY_DEFS = {
                 frames = {7, 8, 9, 10},
                 interval = 0.07,
                 texture = 'player-jump-fall',
-                ratio = 25/(155-15)
+                ratio = 25/(155-15),
+                special_frames = {11, 12}, 
+                special_interval = 0.07
             }
         }
     }

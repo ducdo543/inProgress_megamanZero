@@ -24,7 +24,7 @@ function Animation:update(dt)
             if self.timer > self.special_interval then
                 self.timer = self.timer % self.special_interval
 
-                self.special_currentFrame = math.max(1, (self.special_currentFrame + 1) % (#self.frames + 1))
+                self.special_currentFrame = math.max(1, (self.special_currentFrame + 1) % (#self.special_frames + 1))
             end
         end
         return

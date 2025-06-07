@@ -21,7 +21,8 @@ function PlayerFallState:update(dt)
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk')
         else
-            self.entity:changeState('idle')
+            self.entity:changeState('idle', {delay_animation = 0.14}) 
+            self.entity.currentAnimation.flag_specialAnimation = true
         end
     end 
     if love.keyboard.isDown('left') then 
