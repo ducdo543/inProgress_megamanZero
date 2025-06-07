@@ -32,6 +32,7 @@ require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerJumpState'
+require 'src/states/entity/player/PlayerFallState'
 
 
 gTextures = {
@@ -43,7 +44,7 @@ gTextures = {
 gFrames = {
     ['player-walk'] = GenerateQuads(gTextures['player-walk'], 150, 150),
     ['player-idle'] = GenerateQuads(gTextures['player-idle'], 130, 1000),
-    ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 153)
+    ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 215)
 }
 
 gFonts = {

@@ -16,16 +16,17 @@ ENTITY_DEFS = {
                 ratio = 1/5
             },
             ['jump'] = {
-                frames = {1, 2, 3, 4 ,5 ,6},
+                frames = {1, 2, 3, 4},
                 interval = 0.07,
                 texture = 'player-jump-fall',
-                ratio = 5/138
+                ratio = 25/(155-15), -- height virtual = 25, height window size = 140
+                special_frames = {5}
             },
             ['fall'] = {
-                frames = {1, 2, 3, 4 ,5 ,6},
+                frames = {7, 8, 9, 10},
                 interval = 0.07,
                 texture = 'player-jump-fall',
-                ratio = 5/138
+                ratio = 25/(155-15)
             }
         }
     }

@@ -30,7 +30,9 @@ function Entity:createAnimations(animations)
             texture = animationDef.texture,
             frames = animationDef.frames,
             interval = animationDef.interval,
-            ratio = animationDef.ratio
+            ratio = animationDef.ratio,
+            special_frames = animationDef.special_frames or nil,
+            special_interval = animationDef.special_interval or nil
         }
     end
 
