@@ -17,8 +17,12 @@ function PlayerWalkState:update(dt)
         self.entity:changeState('idle')
     end
 
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('x') then
         self.entity:changeState('jump')
+    end
+
+    if love.keyboard.wasPressed('z') then
+        self.entity:changeState('dash')
     end
 end
 

@@ -4,7 +4,7 @@ function PlayerIdleState:init(player)
     EntityIdleState.init(self, player)
     self.entity.offsetX = 8 -- 40/5
 
-    self.time_accumulate = 0
+    self.timeAnime_accumulate = 0
     self.delayAnime = false
 end
 
@@ -22,8 +22,8 @@ function PlayerIdleState:enter(params)
 end
 function PlayerIdleState:update(dt)
     if self.delayAnime == true then
-        self.time_accumulate = self.time_accumulate + dt
-        if self.time_accumulate >= self.delay_animation then 
+        self.timeAnime_accumulate = self.timeAnime_accumulate + dt
+        if self.timeAnime_accumulate >= self.delay_animation then 
             self.entity:changeAnimation("idle")
             self.delayAnime = false
         end
@@ -34,8 +34,12 @@ function PlayerIdleState:update(dt)
         -- self.entity:changeAnimation('walk-right') --maybe first frame of PlayerWalkState hasn't receive button so we must changeAnimation right here when we don't have any
     end
 
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('x') then
         self.entity:changeState('jump')
+    end
+
+    if love.keyboard.wasPressed('z') then
+        self.entity:changeState('dash')
     end
 
     -- check if collide

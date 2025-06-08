@@ -9,11 +9,13 @@ function PlayState:init()
         stateMachine = StateMachine {
             ['idle'] = function() return PlayerIdleState(self.player) end,
             ['walk'] = function() return PlayerWalkState(self.player) end,
+            ['dash'] = function() return PlayerDashState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
             ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end
         },
         jump_velocity = ENTITY_DEFS['player'].jump_velocity,
-        walkSpeed = ENTITY_DEFS['player'].walkSpeed
+        walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+        dashSpeed = ENTITY_DEFS['player'].dashSpeed
     })
 
     self.player:changeState('idle')

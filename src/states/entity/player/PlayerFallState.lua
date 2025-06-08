@@ -16,7 +16,7 @@ function PlayerFallState:update(dt)
 
     --double jump
     if self.entity.flag_doubleJump == true then
-        if love.keyboard.wasPressed('space') then
+        if love.keyboard.wasPressed('x') then
             self.entity:changeState('jump')
             self.entity.flag_doubleJump = false
         end

@@ -2,6 +2,7 @@ ENTITY_DEFS = {
     ['player'] = {
         walkSpeed = 60,
         jump_velocity = -150,
+        dashSpeed = 150,
         animations = {
             ['walk'] = {
                 frames = {2, 3, 4, 5, 6, 7, 8, 9, 10, 12},

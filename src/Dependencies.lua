@@ -33,6 +33,7 @@ require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerJumpState'
 require 'src/states/entity/player/PlayerFallState'
+require 'src/states/entity/player/PlayerDashState'
 
 
 gTextures = {
