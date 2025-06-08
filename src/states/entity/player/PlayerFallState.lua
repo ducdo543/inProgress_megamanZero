@@ -13,6 +13,15 @@ end
 function PlayerFallState:update(dt)
     self.entity.dy = self.entity.dy + self.gravity
     self.entity.y = self.entity.y + (self.entity.dy * dt)
+
+    --double jump
+    if self.entity.flag_doubleJump == true then
+        if love.keyboard.wasPressed('space') then
+            self.entity:changeState('jump')
+            self.entity.flag_doubleJump = false
+        end
+    end
+    -- return idle or walk when touch the ground
     if self.entity.y >= 100 then
         self.entity.y = 100
         self.entity.dy = 0
@@ -20,9 +29,11 @@ function PlayerFallState:update(dt)
         -- set the player to be walk or idle 
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk')
+            self.entity.flag_doubleJump = true
         else
             self.entity:changeState('idle', {delay_animation = 0.14}) 
             self.entity.currentAnimation.flag_specialAnimation = true
+            self.entity.flag_doubleJump = true
         end
     end 
     if love.keyboard.isDown('left') then 

@@ -10,6 +10,7 @@ function PlayerJumpState:init(player, gravity)
 
     self.entity.offsetX = 8 -- 40/5
     self.entity.offsetY = 3 -- 15/5
+
 end
 
 function PlayerJumpState:update(dt)
@@ -28,7 +29,13 @@ function PlayerJumpState:update(dt)
         self.entity.currentAnimation.flag_specialAnimation = true
     end
 
-   
+    if self.entity.flag_doubleJump == true then
+        if love.keyboard.wasPressed('space') then
+            self.entity:changeState('jump')
+            self.entity.flag_doubleJump = false
+        end
+    end
+
     -- go into the falling state when y velocity is positive
     if self.entity.dy >= 0 then
         self.entity:changeState('fall')

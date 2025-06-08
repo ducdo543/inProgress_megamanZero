@@ -16,5 +16,9 @@ function PlayerWalkState:update(dt)
     else
         self.entity:changeState('idle')
     end
+
+    if love.keyboard.wasPressed('space') then
+        self.entity:changeState('jump')
+    end
 end
 
