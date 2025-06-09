@@ -16,7 +16,13 @@ function PlayerFallState:update(dt)
 
     --double jump
     if self.entity.flag_doubleJump == true then
-        if love.keyboard.wasPressed('x') then
+        if love.keyboard.isDown('z') then 
+            if love.keyboard.wasPressed('x') then
+                self.entity.flag_dashJump = true 
+                self.entity:changeState('jump')
+                self.entity.flag_doubleJump = false
+            end
+        elseif love.keyboard.wasPressed('x') then
             self.entity:changeState('jump')
             self.entity.flag_doubleJump = false
         end
@@ -25,6 +31,8 @@ function PlayerFallState:update(dt)
     if self.entity.y >= 100 then
         self.entity.y = 100
         self.entity.dy = 0
+        --reset dashjump
+        self.entity.flag_dashJump = false
 
         -- set the player to be walk or idle 
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
@@ -36,12 +44,17 @@ function PlayerFallState:update(dt)
             self.entity.flag_doubleJump = true
         end
     end 
+    if self.entity.flag_dashJump == true then
+        self.entity.dx = self.entity.dashSpeed
+    else
+        self.entity.dx = self.entity.walkSpeed
+    end
     if love.keyboard.isDown('left') then 
         self.entity.direction = 'left'
-        self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+        self.entity.x = self.entity.x - self.entity.dx * dt
     elseif love.keyboard.isDown('right') then 
         self.entity.direction = 'right'
-        self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+        self.entity.x = self.entity.x + self.entity.dx * dt
     end
 end
 

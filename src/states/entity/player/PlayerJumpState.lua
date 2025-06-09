@@ -10,7 +10,6 @@ function PlayerJumpState:init(player, gravity)
 
     self.entity.offsetX = 8 -- 40/5
     self.entity.offsetY = 3 -- 15/5
-
 end
 
 function PlayerJumpState:update(dt)
@@ -30,7 +29,13 @@ function PlayerJumpState:update(dt)
     end
 
     if self.entity.flag_doubleJump == true then
-        if love.keyboard.wasPressed('x') then
+        if love.keyboard.isDown('z') then 
+            if love.keyboard.wasPressed('x') then
+                self.entity.flag_dashJump = true 
+                self.entity:changeState('jump')
+                self.entity.flag_doubleJump = false
+            end
+        elseif love.keyboard.wasPressed('x') then
             self.entity:changeState('jump')
             self.entity.flag_doubleJump = false
         end
@@ -38,15 +43,29 @@ function PlayerJumpState:update(dt)
 
     -- go into the falling state when y velocity is positive
     if self.entity.dy >= 0 then
+        self.entity.dy = 0
         self.entity:changeState('fall')
     end
 
+    if self.entity.dy >= -130 then
+        if not love.keyboard.isDown('x') then
+            self.entity.dy = 0
+            self.entity:changeState('fall')
+        end
+    end
+
+
+    if self.entity.flag_dashJump == true then
+        self.entity.dx = self.entity.dashSpeed
+    else
+        self.entity.dx = self.entity.walkSpeed
+    end
     if love.keyboard.isDown('left') then 
         self.entity.direction = 'left'
-        self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+        self.entity.x = self.entity.x - self.entity.dx * dt
     elseif love.keyboard.isDown('right') then 
         self.entity.direction = 'right'
-        self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+        self.entity.x = self.entity.x + self.entity.dx * dt
     end
 end
 

@@ -5,27 +5,53 @@ function PlayerIdleState:init(player)
     self.entity.offsetX = 8 -- 40/5
 
     self.timeAnime_accumulate = 0
-    self.delayAnime = false
+    self.flag_delayAnime = false
+    self.delay_animation = nil
+
+    -- attribute to delay flagDashJump
+    self.timeDashJump_accumulate = 0
+    self.delay_dashJump = nil
+
 end
 
 function PlayerIdleState:enter(params)
     if params then
         if params.delay_animation then
             self.delay_animation = params.delay_animation
-            self.delayAnime = true
+            self.flag_delayAnime = true
         end
     end 
 
-    if self.delayAnime == false then
+    if self.flag_delayAnime == false then
         self.entity:changeAnimation("idle")
     end
+
+    -- delay flag_dashJump
+    if params then 
+        if params.delay_dashJump then 
+            self.delay_dashJump = params.delay_dashJump
+        end
+    end
+
 end
 function PlayerIdleState:update(dt)
-    if self.delayAnime == true then
+    -- delay anime
+    if self.flag_delayAnime == true then
         self.timeAnime_accumulate = self.timeAnime_accumulate + dt
         if self.timeAnime_accumulate >= self.delay_animation then 
             self.entity:changeAnimation("idle")
-            self.delayAnime = false
+            self.flag_delayAnime = false
+        end
+    end
+
+    -- delay DashJump flag
+    if self.delay_dashJump then
+        print(self.delay_dashJump)
+        if self.entity.flag_dashJump == true then 
+            self.timeDashJump_accumulate = self.timeDashJump_accumulate + dt 
+            if self.timeDashJump_accumulate >= self.delay_dashJump then 
+                self.entity.flag_dashJump = false 
+            end
         end
     end
 

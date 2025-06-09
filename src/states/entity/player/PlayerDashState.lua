@@ -27,19 +27,19 @@ function PlayerDashState:update(dt)
     self.time_accumulate = self.time_accumulate + dt
     if self.time_accumulate > 0.45 then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
-            self.entity:changeState('walk')
+            self.entity:changeState('walk', {delay_dashJump = 0.5})
             return
         else
-            self.entity:changeState('idle')
+            self.entity:changeState('idle', {delay_dashJump = 0.5})
             return
         end
     else
-        self.entity.dash_jump = true
+        self.entity.flag_dashJump = true
         -- put walk in the opposite direction while dash will change state
         if self.entity.direction == 'left' and love.keyboard.wasPressed('right') then
-            self.entity:changeState('walk')
+            self.entity:changeState('walk', {delay_dashJump = 0.5})
         elseif self.entity.direction == 'right' and love.keyboard.wasPressed('left') then
-            self.entity:changeState('walk')
+            self.entity:changeState('walk', {delay_dashJump = 0.5})
         end
     end
 
@@ -51,9 +51,9 @@ function PlayerDashState:update(dt)
     -- release dash button midway
     if not love.keyboard.isDown('z') then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
-            self.entity:changeState('walk')
+            self.entity:changeState('walk', {delay_dashJump = 0.5})
         else
-            self.entity:changeState('idle')
+            self.entity:changeState('idle', {delay_dashJump = 0.5})
         end
     end
 end
