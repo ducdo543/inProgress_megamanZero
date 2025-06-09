@@ -4,7 +4,17 @@ PlayerDashState = Class{__includes = BaseState}
 
 function PlayerDashState:init(player)
     self.entity = player
-    self.entity:changeAnimation('fall')
+
+    self.entity.offsetX = 8 -- 40/5
+    self.entity.offsetY = 14 -- 70/5
+
+    self.height_idle = self.entity.height
+    self.height_dash = 16          -- 80/5
+
+    self.entity.y = self.entity.y + 10       -- window size go down 1 segment y = 50
+    self.entity.height = self.height_dash
+
+    self.entity:changeAnimation('dash')
 
     self.time_accumulate = 0
 end
@@ -28,9 +38,13 @@ function PlayerDashState:update(dt)
     if self.time_accumulate > 0.45 then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10
+            self.entity.height = self.height_idle
             return
         else
             self.entity:changeState('idle', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
             return
         end
     else
@@ -38,22 +52,32 @@ function PlayerDashState:update(dt)
         -- put walk in the opposite direction while dash will change state
         if self.entity.direction == 'left' and love.keyboard.wasPressed('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
         elseif self.entity.direction == 'right' and love.keyboard.wasPressed('left') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
         end
     end
 
     -- jump
     if love.keyboard.wasPressed('x') or love.keyboard.isDown('x') then --case when press z and x simultaneously. keypressed just receive 1 key in each frame, so DashState don't know whether we also press x, so i put isDown here to cover this case
         self.entity:changeState('jump')
+        self.entity.y = self.entity.y - 10 
+        self.entity.height = self.height_idle
     end
 
     -- release dash button midway
     if not love.keyboard.isDown('z') then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
         else
             self.entity:changeState('idle', {delay_dashJump = 0.5})
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
         end
     end
 end

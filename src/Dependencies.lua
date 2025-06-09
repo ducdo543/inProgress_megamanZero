@@ -39,13 +39,15 @@ require 'src/states/entity/player/PlayerDashState'
 gTextures = {
     ['player-walk'] = love.graphics.newImage('graphics/player_walk.png'),
     ['player-idle'] = love.graphics.newImage('graphics/player_idle.png'),
-    ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png')
+    ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png'),
+    ['player-dash'] = love.graphics.newImage('graphics/player_dash.png')
 }
 
 gFrames = {
     ['player-walk'] = GenerateQuads(gTextures['player-walk'], 150, 150),
     ['player-idle'] = GenerateQuads(gTextures['player-idle'], 130, 1000),
-    ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 215)
+    ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 215),
+    ['player-dash'] = GenerateQuads(gTextures['player-dash'], 150, 150)
 }
 
 gFonts = {

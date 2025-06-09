@@ -30,6 +30,12 @@ ENTITY_DEFS = {
                 ratio = 25/(155-15),
                 special_frames = {11, 12}, 
                 special_interval = 0.07
+            },
+            ['dash'] = {
+                frames = {2, 3, 4 ,5},
+                interval = 0.07,
+                texture = 'player-dash',
+                ratio = 1/5
             }
         }
     }
