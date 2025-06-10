@@ -36,6 +36,18 @@ ENTITY_DEFS = {
                 interval = 0.07,
                 texture = 'player-dash',
                 ratio = 1/5
+            },
+            ['special_idlewalkToDash'] = {
+                frames = {1},
+                interval = 0.07,
+                texture = 'player-dash',
+                ratio = 1/5
+            },
+            ['special_dashToIdle'] = {
+                frames = {6, 7},
+                interval = 0.05,
+                texture = 'player-dash',
+                ratio = 1/5
             }
         }
     }

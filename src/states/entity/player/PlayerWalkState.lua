@@ -47,7 +47,8 @@ function PlayerWalkState:update(dt)
     end
 
     if love.keyboard.wasPressed('z') then
-        self.entity:changeState('dash')
+        self.entity:changeState('dash', {delay_animation = 0.07})
+        self.entity:changeAnimation('special_idlewalkToDash')
     end
 end
 

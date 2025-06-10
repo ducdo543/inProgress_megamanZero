@@ -14,12 +14,38 @@ function PlayerDashState:init(player)
     self.entity.y = self.entity.y + 10       -- window size go down 1 segment y = 50
     self.entity.height = self.height_dash
 
-    self.entity:changeAnimation('dash')
-
     self.time_accumulate = 0
+
+        -- attribute to delay Animation
+    self.timeAnime_accumulate = 0
+    self.flag_delayAnime = false
+    self.delay_animation = nil
+end
+
+function PlayerDashState:enter(params)
+    if params then
+        if params.delay_animation then
+            self.delay_animation = params.delay_animation
+            self.flag_delayAnime = true
+        end
+    end 
+
+    if self.flag_delayAnime == false then
+        self.entity:changeAnimation("dash")
+    end
 end
 
 function PlayerDashState:update(dt)
+    -- delay anime
+    if self.flag_delayAnime == true then
+        self.timeAnime_accumulate = self.timeAnime_accumulate + dt
+        if self.timeAnime_accumulate >= self.delay_animation then 
+            self.entity:changeAnimation("dash")
+            self.flag_delayAnime = false
+        end
+    end
+
+    -- go in small steps of 1 pixel to check for collision
     local distance = self.entity.dashSpeed * dt
     local step = 1
     local moved = 0
@@ -42,7 +68,8 @@ function PlayerDashState:update(dt)
             self.entity.height = self.height_idle
             return
         else
-            self.entity:changeState('idle', {delay_dashJump = 0.5})
+            self.entity:changeState('idle', {delay_dashJump = 0.5, delay_animation = 0.1})
+            self.entity:changeAnimation('special_dashToIdle')
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
             return
@@ -54,10 +81,12 @@ function PlayerDashState:update(dt)
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
+            return
         elseif self.entity.direction == 'right' and love.keyboard.wasPressed('left') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
+            return
         end
     end
 
@@ -75,7 +104,8 @@ function PlayerDashState:update(dt)
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
         else
-            self.entity:changeState('idle', {delay_dashJump = 0.5})
+            self.entity:changeState('idle', {delay_dashJump = 0.5, delay_animation = 0.1})
+            self.entity:changeAnimation('special_dashToIdle')
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
         end

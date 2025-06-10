@@ -4,6 +4,7 @@ function PlayerIdleState:init(player)
     EntityIdleState.init(self, player)
     self.entity.offsetX = 8 -- 40/5
 
+    -- attribute to delay Animation
     self.timeAnime_accumulate = 0
     self.flag_delayAnime = false
     self.delay_animation = nil
@@ -65,7 +66,8 @@ function PlayerIdleState:update(dt)
     end
 
     if love.keyboard.wasPressed('z') then
-        self.entity:changeState('dash')
+        self.entity:changeState('dash', {delay_animation = 0.07})
+        self.entity:changeAnimation('special_idlewalkToDash')
     end
 
     -- check if collide
