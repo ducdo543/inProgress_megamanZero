@@ -11,6 +11,9 @@ function Player:init(def)
 
     -- see if we have a dash speed
     self.flag_dashJump = false
+
+    -- retent hitboxes in table
+    self.hitboxes = {}
 end
 
 function Player:update(dt)
@@ -19,5 +22,7 @@ end
 
 function Player:render()
     Entity.render(self)
-    
+    for _, hitbox in ipairs(self.hitboxes) do 
+        hitbox:render()
+    end
 end

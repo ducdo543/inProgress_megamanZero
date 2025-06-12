@@ -15,6 +15,7 @@ require 'src/StateMachine'
 require 'src/entity_defs'
 require 'src/Animation'
 require 'src/Util'
+require 'src/PartCircleHitbox'
 
 -- game states
 require 'src/states/BaseState'
@@ -34,6 +35,7 @@ require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerJumpState'
 require 'src/states/entity/player/PlayerFallState'
 require 'src/states/entity/player/PlayerDashState'
+require 'src/states/entity/player/PlayerNormalSlashState'
 
 
 gTextures = {

@@ -70,6 +70,10 @@ function PlayerIdleState:update(dt)
         self.entity:changeAnimation('special_idlewalkToDash')
     end
 
+    if love.keyboard.wasPressed('c') then
+        self.entity:changeState('normal-slash')
+    end
+
     -- check if collide
     -- ...
 end

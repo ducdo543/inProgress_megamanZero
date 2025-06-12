@@ -10,6 +10,7 @@ function PlayState:init()
             ['idle'] = function() return PlayerIdleState(self.player) end,
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['dash'] = function() return PlayerDashState(self.player) end,
+            ['normal-slash'] = function() return PlayerNormalSlashState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
             ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end
         },
