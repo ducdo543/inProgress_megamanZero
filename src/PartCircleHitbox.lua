@@ -18,12 +18,24 @@ function PartCircleHitbox:init(def)
 
     -- flag movement target
     self.movement = def.movement 
+
+    -- to delete hitbox after some time
+    self.time_disappear = def.time_disappear
+    self.time_accumulate = 0
 end
 
 function PartCircleHitbox:update(dt)
+
     if self.movement == true then 
         self.cx = self.cx + self.dx * dt
         self.cy = self.cy + self.dy * dt 
+    end
+end
+
+function PartCircleHitbox:delete(dt)
+    self.time_accumulate = self.time_accumulate + dt 
+    if self.time_accumulate >= self.time_disappear then
+        return true 
     end
 end
 

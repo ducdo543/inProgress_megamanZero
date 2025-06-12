@@ -18,6 +18,15 @@ end
 
 function Player:update(dt)
     Entity.update(self, dt)
+
+    for i = #self.hitboxes, 1, -1 do 
+        local hitbox = self.hitboxes[i]
+        hitbox:update(dt)
+
+        if hitbox:delete(dt) then 
+            table.remove(self.hitboxes, i)
+        end
+    end
 end
 
 function Player:render()
