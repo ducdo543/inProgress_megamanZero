@@ -2,6 +2,10 @@ PlayerNormalSlashState = Class{__includes = BaseState}
 
 function PlayerNormalSlashState:init(player)
     self.entity = player 
+
+    self.entity.offsetX = 14 -- 70/5
+    self.entity.offsetY = 14 -- 70/5
+
     -- reset flag_dashJump
     self.entity.flag_dashJump = false
 
@@ -12,9 +16,9 @@ function PlayerNormalSlashState:init(player)
         [3] = false
     }
     self.counter_normalSlash = 1
-
     self.flag_continueSlash = false
 
+    self.entity:changeAnimation('normal-slash1')
 
     self.time_accumulate = 0
 end
@@ -23,6 +27,7 @@ function PlayerNormalSlashState:update(dt)
     self.time_accumulate = self.time_accumulate + dt 
 
     if self.flag_normalSlash[1] == true then 
+        self.entity:changeAnimation('normal-slash1')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width) or self.entity.x,
             cy = self.entity.y + self.entity.height,
@@ -39,6 +44,7 @@ function PlayerNormalSlashState:update(dt)
     end
 
     if self.flag_normalSlash[2] == true then 
+        self.entity:changeAnimation('normal-slash2')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width + 2) or (self.entity.x - 2),
             cy = self.entity.y + self.entity.height + 2,
@@ -48,7 +54,7 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.15
+            time_disappear = 0.3
         }))
         -- add arc
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -60,13 +66,14 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.15
+            time_disappear = 0.3
         }))
 
         self.flag_normalSlash[2] = false
     end        
 
     if self.flag_normalSlash[3] == true then 
+        self.entity:changeAnimation('normal-slash3')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width) or self.entity.x,
             cy = self.entity.y + self.entity.height,
@@ -76,7 +83,7 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.15
+            time_disappear = 0.3
         }))
 
         self.flag_normalSlash[3] = false
@@ -88,7 +95,7 @@ function PlayerNormalSlashState:update(dt)
 
     -- convert to the next normal slash
     if self.flag_continueSlash == true and self.counter_normalSlash < 3 then 
-        if self.time_accumulate >= 0.15 then 
+        if self.time_accumulate >= 0.3 then 
             self.counter_normalSlash = self.counter_normalSlash + 1
             self.flag_normalSlash[self.counter_normalSlash] = true
             self.time_accumulate = 0
@@ -111,7 +118,11 @@ function PlayerNormalSlashState:update(dt)
 end
 
 function PlayerNormalSlashState:render()
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(1, 1, 1)
+    local anim = self.entity.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+        math.floor(self.entity.direction == 'left' and self.entity.x + self.entity.offsetX + self.entity.width  or self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY), 0 , self.entity.direction == "left" and -anim.ratio or anim.ratio, anim.ratio)
+
+    -- love.graphics.setColor(1, 0, 0)
+    -- love.graphics.rectangle("fill", self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    -- love.graphics.setColor(1, 1, 1)
 end

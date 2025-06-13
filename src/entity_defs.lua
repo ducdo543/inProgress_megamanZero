@@ -48,6 +48,24 @@ ENTITY_DEFS = {
                 interval = 0.05,
                 texture = 'player-dash',
                 ratio = 1/5
+            },
+            ['normal-slash1'] = {
+                frames = {2, 3, 4, 5, 6},
+                interval = 0.3/5,
+                texture = 'player-normal-slash',
+                ratio = 1/5
+            },
+            ['normal-slash2'] = {
+                frames = {9, 10, 11, 12, 13},
+                interval = 0.3/5,
+                texture = 'player-normal-slash',
+                ratio = 1/5                
+            },
+            ['normal-slash3'] = {
+                frames = {18, 19, 20, 21, 22, 23, 24, 25},
+                interval = 0.3/8,
+                texture = 'player-normal-slash',
+                ratio = 1/5                
             }
         }
     }
