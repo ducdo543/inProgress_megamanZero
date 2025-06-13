@@ -43,7 +43,7 @@ gTextures = {
     ['player-idle'] = love.graphics.newImage('graphics/player_idle.png'),
     ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png'),
     ['player-dash'] = love.graphics.newImage('graphics/player_dash.png'),
-    ['player-normal-slash'] = love.graphics.newImage('graphics/normalSlash_blueBackground.png')
+    ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png')
 
 }
 

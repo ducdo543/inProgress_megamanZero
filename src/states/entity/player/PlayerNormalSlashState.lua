@@ -31,7 +31,7 @@ function PlayerNormalSlashState:update(dt)
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width) or self.entity.x,
             cy = self.entity.y + self.entity.height,
-            radius = self.entity.height + 2,
+            radius = self.entity.height + 6,
             start_angle = self.entity.direction == 'right' and (-120) or (-150),
             cover_angle = 90,
             dx = 0,
@@ -75,11 +75,23 @@ function PlayerNormalSlashState:update(dt)
     if self.flag_normalSlash[3] == true then 
         self.entity:changeAnimation('normal-slash3')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
-            cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width) or self.entity.x,
-            cy = self.entity.y + self.entity.height,
-            radius = self.entity.height + 7,
-            start_angle = self.entity.direction == 'right' and (-165) or (-180),
-            cover_angle = 165,
+            cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width/2 + 4) or (self.entity.x + self.entity.width/2 - 4),
+            cy = self.entity.y + 8.6,
+            radius = 22,
+            start_angle = self.entity.direction == 'right' and (156) or (-156),
+            cover_angle = 180,
+            dx = 0,
+            dy = 0,
+            movement = false,
+            time_disappear = 0.3
+        }))
+
+        table.insert(self.entity.hitboxes, PartCircleHitbox({
+            cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width/2 + 14) or (self.entity.x + self.entity.width/2 - 14),
+            cy = self.entity.y + 8.6,
+            radius = 20,
+            start_angle = self.entity.direction == 'right' and (-105) or (105),
+            cover_angle = 180,
             dx = 0,
             dy = 0,
             movement = false,
@@ -95,7 +107,7 @@ function PlayerNormalSlashState:update(dt)
 
     -- convert to the next normal slash
     if self.flag_continueSlash == true and self.counter_normalSlash < 3 then 
-        if self.time_accumulate >= 0.3 then 
+        if self.time_accumulate >= 0.05 then -- 0.05
             self.counter_normalSlash = self.counter_normalSlash + 1
             self.flag_normalSlash[self.counter_normalSlash] = true
             self.time_accumulate = 0
@@ -104,7 +116,7 @@ function PlayerNormalSlashState:update(dt)
     end
 
     -- end the slash state if we don't press 'c' before time out
-    if self.time_accumulate >= 0.3 then 
+    if self.time_accumulate >= 0.3 then  -- 0.3
         self.entity:changeState('idle')
     end
 
