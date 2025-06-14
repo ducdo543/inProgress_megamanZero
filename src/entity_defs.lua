@@ -50,21 +50,24 @@ ENTITY_DEFS = {
                 ratio = 1/5
             },
             ['normal-slash1'] = {
-                frames = {2, 3, 4, 5, 6},
-                interval = 0.3/5,
+                frames = {2, 3, 4, 5, 6, 7, 8},
+                interval = 0.28/7, -- 0.04
                 texture = 'player-normal-slash',
+                looping = false,
                 ratio = 1/5
             },
             ['normal-slash2'] = {
-                frames = {9, 10, 11, 12, 13},
-                interval = 0.3/5,
+                frames = {9, 10, 11, 12, 13, 14, 15},
+                interval = 0.28/7, --0.04
                 texture = 'player-normal-slash',
+                looping = false,
                 ratio = 1/5                
             },
             ['normal-slash3'] = {
-                frames = {18, 19, 20, 21, 22, 23, 24, 25},
-                interval = 0.3/8,
+                frames = {20, 21, 22, 23, 24, 25, 26, 27, 28},
+                interval = 0.2/5, -- 0.04
                 texture = 'player-normal-slash',
+                looping = false,
                 ratio = 1/5                
             }
         }

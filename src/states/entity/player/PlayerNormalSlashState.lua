@@ -9,18 +9,23 @@ function PlayerNormalSlashState:init(player)
     -- reset flag_dashJump
     self.entity.flag_dashJump = false
 
+    self.time_accumulate = 0
+end 
+
+function PlayerNormalSlashState:enter(params)
+    local params = params or {}
     -- flag for three normal slash state
     self.flag_normalSlash = {
-        [1] = true,
+        [1] = false,
         [2] = false,
         [3] = false
     }
-    self.counter_normalSlash = 1
+    self.counter_normalSlash = params.counter_normalSlash or 1
+    self.flag_normalSlash[self.counter_normalSlash] = true
+
     self.flag_continueSlash = false
 
-    self.entity:changeAnimation('normal-slash1')
-
-    self.time_accumulate = 0
+    self.entity:changeAnimation('normal-slash' .. tostring(self.counter_normalSlash))
 end
 
 function PlayerNormalSlashState:update(dt)
@@ -31,7 +36,7 @@ function PlayerNormalSlashState:update(dt)
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width) or self.entity.x,
             cy = self.entity.y + self.entity.height,
-            radius = self.entity.height + 6,
+            radius = self.entity.height + 4,
             start_angle = self.entity.direction == 'right' and (-120) or (-150),
             cover_angle = 90,
             dx = 0,
@@ -116,16 +121,27 @@ function PlayerNormalSlashState:update(dt)
     end
 
     -- end the slash state if we don't press 'c' before time out
-    if self.time_accumulate >= 0.3 then  -- 0.3
+    if self.time_accumulate >= 0.28 and self.counter_normalSlash < 3 then  -- 0.3
         self.entity:changeState('idle')
+        return
+    elseif self.time_accumulate >= 0.36 and self.counter_normalSlash == 3 then 
+        self.entity:changeState('idle')
+        return
     end
 
     if love.keyboard.wasPressed('x') then
         self.entity:changeState('jump')
+        return
     end
 
     if love.keyboard.wasPressed('z') then
         self.entity:changeState('dash')
+        if love.keyboard.isDown('left') then 
+            self.entity.direction = 'left'
+        elseif love.keyboard.isDown('right') then
+            self.entity.direction = "right"
+        end
+        return
     end
 end
 

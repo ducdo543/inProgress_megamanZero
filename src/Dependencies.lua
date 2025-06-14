@@ -25,6 +25,7 @@ require 'src/states/game/PlayState'
 -- classes to create objects
 require 'src/Entity'
 require 'src/Player'
+require 'src/Enermy1'
 
 
 -- entity states

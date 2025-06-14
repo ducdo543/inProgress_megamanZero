@@ -40,15 +40,24 @@ function PlayerWalkState:update(dt)
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
     else
         self.entity:changeState('idle')
+        return
     end
 
     if love.keyboard.wasPressed('x') then
         self.entity:changeState('jump')
+        return
     end
 
     if love.keyboard.wasPressed('z') then
         self.entity:changeState('dash', {delay_animation = 0.07})
         self.entity:changeAnimation('special_idlewalkToDash')
+        return
     end
+
+    if love.keyboard.wasPressed('c') then
+        self.entity:changeState('normal-slash')
+        return
+    end
+
 end
 

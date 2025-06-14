@@ -8,7 +8,11 @@ function Animation:init(def)
     self.timer = 0
     self.currentFrame = 1
 
-    -- information related to animations when almost done or done shortly after one state
+    self.looping = def.looping or true
+    -- count number of looping
+    self.timesPlayed = 0 
+
+    -- information related to animations when almost done or done shortly after one state (actually dont need)
     self.flag_specialAnimation = false
     self.special_frames = def.special_frames
     self.special_interval = def.special_interval
@@ -16,6 +20,11 @@ function Animation:init(def)
 end
 
 function Animation:update(dt)
+    -- return if animation don't loop again
+    if not self.looping and self.timesPlayed > 0 then 
+        return 
+    end
+
     -- handle special animations
     if self.flag_specialAnimation == true then
         if #self.special_frames > 1 then
@@ -38,6 +47,11 @@ function Animation:update(dt)
             self.timer = self.timer % self.interval
 
             self.currentFrame = math.max(1, (self.currentFrame + 1) % (#self.frames + 1))
+
+            -- when go to the next loop, record
+            if self.currentFrame == 1 then 
+                self.timesPlayed = self.timesPlayed + 1
+            end
         end
     end
 end
