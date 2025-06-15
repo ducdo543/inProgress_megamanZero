@@ -69,6 +69,13 @@ ENTITY_DEFS = {
                 texture = 'player-normal-slash',
                 looping = false,
                 ratio = 1/5                
+            },
+            ['beHitted'] = {
+                frames = {1, 2, 3},
+                interval = 0.04,
+                texture = 'player-beHitted',
+                looping = true,
+                ratio = 1/5
             }
         }
     }

@@ -34,7 +34,8 @@ function PlayState:generateEntities()
             width = 10, height = 25,
             stateMachine = StateMachine {
             ['idle'] = function() return EntityIdleState(self.entities.type1.enemies[1]) end,
-            ['walk'] = function() return EntityWalkState(self.entities.type1.enemies[1]) end
+            ['walk'] = function() return EntityWalkState(self.entities.type1.enemies[1]) end,
+            ['beHitted'] = function() return Enermy1BeHittedState(self.entities.type1.enemies[1]) end
             },
             walkSpeed = ENTITY_DEFS['player'].walkSpeed
         })
@@ -72,7 +73,7 @@ function PlayState:update(dt)
 
                 if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
                     -- table.remove(enermyData.enemies, i)
-                    enermy:changeState('walk')
+                    enermy:changeState('beHitted')
                     hitbox.wasHitted_entities[enermy] = true
                     -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes to true
                     for j = k-2, k+2 do 

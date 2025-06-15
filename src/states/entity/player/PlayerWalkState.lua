@@ -3,6 +3,7 @@ PlayerWalkState = Class{__includes = EntityWalkState}
 function PlayerWalkState:init(player)
     self.entity = player
     self.entity.offsetX = 10 -- windowsize offsetX = 50 -> virtual offsetX 50 / 5 = 10
+    self.entity.offsetY = 0
     self.entity:changeAnimation('walk')
 
     -- attribute to delay flagDashJump
