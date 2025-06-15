@@ -27,7 +27,7 @@ function PlayState:init()
 end
 
 function PlayState:generateEntities()
-    local type1 = {time_accumulate = 0, time_create = 10, enemies = { --enemies means number of enemy
+    local type1 = {time_accumulate = 0, time_create = 10, enemies = { --enemies means number of enermy
         Enermy1({
             animations = ENTITY_DEFS['player'].animations,
             x = 200, y = 100,
@@ -63,9 +63,25 @@ function PlayState:update(dt)
     for k, hitbox in ipairs(self.player.hitboxes) do 
         for type, enermyData in pairs(self.entities) do 
             for i, enermy in ipairs(enermyData.enemies) do
-                if hitbox:collide_rectangle(enermy) then
+                -- local wasHitted = false
+                -- for j, wasHitted_enermy in ipairs(hitbox.wasHitted_entities) do 
+                --     if wasHitted_enermy == enermy then 
+                --         wasHitted = true 
+                --         break 
+                --     end
+
+                if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
                     -- table.remove(enermyData.enemies, i)
                     enermy:changeState('walk')
+                    hitbox.wasHitted_entities[enermy] = true
+                    -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes to true
+                    for j = k-2, k+2 do 
+                        if j > 0 and j <= #self.player.hitboxes then
+                            if self.player.hitboxes[j].type_slash == hitbox.type_slash then
+                                self.player.hitboxes[j].wasHitted_entities[enermy] = true 
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -74,11 +90,12 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-    self.player:render()
-
     for type, enermyData in pairs(self.entities) do 
         for __, enermy in ipairs(enermyData.enemies) do
             enermy:render()
         end
     end
+
+    self.player:render()
+
 end

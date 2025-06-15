@@ -59,7 +59,8 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.3
+            time_disappear = 0.3,
+            type_slash = 'normal-slash2'
         }))
         -- add arc
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -71,7 +72,8 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.3
+            time_disappear = 0.3,
+            type_slash = 'normal-slash2'
         }))
 
         self.flag_normalSlash[2] = false
@@ -88,7 +90,8 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.3
+            time_disappear = 0.3,
+            type_slash = 'normal-slash3'
         }))
 
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -100,7 +103,8 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.3
+            time_disappear = 0.3,
+            type_slash = 'normal-slash3'
         }))
 
         self.flag_normalSlash[3] = false

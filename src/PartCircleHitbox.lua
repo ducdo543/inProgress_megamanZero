@@ -22,6 +22,12 @@ function PartCircleHitbox:init(def)
     -- to delete hitbox after some time
     self.time_disappear = def.time_disappear
     self.time_accumulate = 0
+
+    -- what type of slash is mark in hitbox
+    self.type_slash = def.type_slash or nil
+
+    -- retent entities that being hit cause we just want this hitbox hit each entity 1 time.
+    self.wasHitted_entities = {} -- structure lookup like self.wasHitted_entities[enermy] = true
 end
 
 function PartCircleHitbox:update(dt)
@@ -226,25 +232,25 @@ function PartCircleHitbox:collide_rectangle(target)
         
     
     -- check if each value of variable is correct (test cases)
-    if self.flag_print == nil then 
-        print(compare_angle)
-        print(self.horizontal_px)
-        print(self.horizontal_py)
-        print(self.vertical_px)
-        print(self.vertical_py)
-        print(self.opposite_vertical_px)
-        print(self.upY)
-        print(self.upX)
-        print(self.downY)
-        print(self.downX)
-        print(self.rightX)
-        print(self.rightY)
-        print(self.leftX)
-        print(self.leftY)
-        print(topLeft_corner)
-        print(flag_collide)
-        self.flag_print = true
-    end
+    -- if self.flag_print == nil then 
+    --     print(compare_angle)
+    --     print(self.horizontal_px)
+    --     print(self.horizontal_py)
+    --     print(self.vertical_px)
+    --     print(self.vertical_py)
+    --     print(self.opposite_vertical_px)
+    --     print(self.upY)
+    --     print(self.upX)
+    --     print(self.downY)
+    --     print(self.downX)
+    --     print(self.rightX)
+    --     print(self.rightY)
+    --     print(self.leftX)
+    --     print(self.leftY)
+    --     print(topLeft_corner)
+    --     print(flag_collide)
+    --     self.flag_print = true
+    -- end
 end
 
 function PartCircleHitbox:render()

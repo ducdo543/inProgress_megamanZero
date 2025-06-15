@@ -47,7 +47,6 @@ function PlayerIdleState:update(dt)
 
     -- delay DashJump flag
     if self.delay_dashJump then
-        print(self.delay_dashJump)
         if self.entity.flag_dashJump == true then 
             self.timeDashJump_accumulate = self.timeDashJump_accumulate + dt 
             if self.timeDashJump_accumulate >= self.delay_dashJump then 
