@@ -13,6 +13,7 @@ function PlayState:init()
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['dash'] = function() return PlayerDashState(self.player) end,
             ['normal-slash'] = function() return PlayerNormalSlashState(self.player) end,
+            ['sting'] = function() return PlayerStingState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
             ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end
         },
@@ -76,10 +77,12 @@ function PlayState:update(dt)
                     enermy:changeState('beHitted')
                     hitbox.wasHitted_entities[enermy] = true
                     -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes to true
-                    for j = k-2, k+2 do 
-                        if j > 0 and j <= #self.player.hitboxes then
-                            if self.player.hitboxes[j].type_slash == hitbox.type_slash then
-                                self.player.hitboxes[j].wasHitted_entities[enermy] = true 
+                    if hitbox.type_slash then
+                        for j = k-2, k+2 do 
+                            if j > 0 and j <= #self.player.hitboxes then
+                                if self.player.hitboxes[j].type_slash == hitbox.type_slash then
+                                    self.player.hitboxes[j].wasHitted_entities[enermy] = true 
+                                end
                             end
                         end
                     end

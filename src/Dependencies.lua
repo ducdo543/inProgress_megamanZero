@@ -39,6 +39,7 @@ require 'src/states/entity/player/PlayerJumpState'
 require 'src/states/entity/player/PlayerFallState'
 require 'src/states/entity/player/PlayerDashState'
 require 'src/states/entity/player/PlayerNormalSlashState'
+require 'src/states/entity/player/PlayerStingState'
 
 require 'src/states/entity/enermy/Enermy1BeHittedState'
 

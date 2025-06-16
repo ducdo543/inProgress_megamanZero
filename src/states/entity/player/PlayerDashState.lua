@@ -59,9 +59,9 @@ function PlayerDashState:update(dt)
         moved = moved + step
     end
     
-    -- dash 0.45s is max
+    -- dash distance = 67.5 -> 0.45s is max
     self.time_accumulate = self.time_accumulate + dt
-    if self.time_accumulate > 0.45 then
+    if self.time_accumulate > 67.5/self.entity.dashSpeed then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10
@@ -95,6 +95,7 @@ function PlayerDashState:update(dt)
         self.entity:changeState('jump')
         self.entity.y = self.entity.y - 10 
         self.entity.height = self.height_idle
+        return
     end
 
     -- release dash button midway
@@ -103,12 +104,21 @@ function PlayerDashState:update(dt)
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
+            return
         else
             self.entity:changeState('idle', {delay_dashJump = 0.5, delay_animation = 0.1})
             self.entity:changeAnimation('special_dashToIdle')
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
+            return
         end
+    end
+
+    if love.keyboard.wasPressed('v') or love.keyboard.isDown('v') then
+        self.entity.y = self.entity.y - 10
+        self.entity.height = self.height_idle
+        self.entity:changeState('sting')
+        return
     end
 end
 

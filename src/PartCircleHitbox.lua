@@ -19,8 +19,8 @@ function PartCircleHitbox:init(def)
     -- flag movement target
     self.movement = def.movement 
 
-    -- to delete hitbox after some time
-    self.time_disappear = def.time_disappear
+    -- to delete hitbox after some time 
+    self.time_disappear = def.time_disappear or nil
     self.time_accumulate = 0
 
     -- what type of slash is mark in hitbox
@@ -40,7 +40,7 @@ end
 
 function PartCircleHitbox:delete(dt)
     self.time_accumulate = self.time_accumulate + dt 
-    if self.time_accumulate >= self.time_disappear then
+    if self.time_disappear and self.time_accumulate >= self.time_disappear then
         return true 
     end
 end

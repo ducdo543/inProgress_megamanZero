@@ -23,6 +23,7 @@ function Player:update(dt)
         local hitbox = self.hitboxes[i]
         hitbox:update(dt)
 
+        -- hitbox disappear when reach time out
         if hitbox:delete(dt) then 
             table.remove(self.hitboxes, i)
         end
@@ -31,7 +32,7 @@ end
 
 function Player:render()
     Entity.render(self)
-    -- for _, hitbox in ipairs(self.hitboxes) do 
-    --     hitbox:render()
-    -- end
+    for _, hitbox in ipairs(self.hitboxes) do 
+        hitbox:render()
+    end
 end
