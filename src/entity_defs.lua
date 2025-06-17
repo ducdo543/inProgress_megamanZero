@@ -76,6 +76,13 @@ ENTITY_DEFS = {
                 texture = 'player-beHitted',
                 looping = true,
                 ratio = 1/5
+            },
+            ['sting'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                interval = 0.017,
+                texture = 'player-sting',
+                looping = false,
+                ratio = 1/5
             }
         }
     }

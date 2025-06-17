@@ -3,6 +3,9 @@ PlayerStingState = Class{__includes = BaseState}
 function PlayerStingState:init(player)
     self.entity = player 
 
+    self.entity.offsetX = 9 -- 45/5
+    self.entity.offsetY = 14 -- 70/5
+
     self.height_idle = self.entity.height
     self.height_dash = 16          -- 80/5
 
@@ -14,7 +17,21 @@ end
 
 
 function PlayerStingState:enter(params)
-    self.entity:changeAnimation("idle")
+    self.entity:changeAnimation("sting")
+
+    -- insert hitbox
+    table.insert(self.entity.hitboxes, PartCircleHitbox({
+        cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
+        cy = self.entity.y + self.entity.height * 2/3,
+        radius = 38,
+        start_angle = self.entity.direction == 'right' and (-5) or (175),
+        cover_angle = 10,
+        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
+        dy = 0,
+        flag_stick = true,
+        entity = self.entity,
+        type_slash = "sting"
+    }))
 end
 
 function PlayerStingState:update(dt)
@@ -31,18 +48,7 @@ function PlayerStingState:update(dt)
         end
         moved = moved + step
     end
-
-    -- insert hitbox
-    table.insert(self.entity.hitboxes, PartCircleHitbox({
-        cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
-        cy = self.entity.y + self.entity.height * 2/3,
-        radius = 27,
-        start_angle = self.entity.direction == 'right' and (-5) or (175),
-        cover_angle = 10,
-        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
-        dy = 0,
-        movement = true
-    }))
+    
 
     -- dash sting distance = 22.5 -> 0.15s is max
     self.time_accumulate = self.time_accumulate + dt
@@ -51,12 +57,16 @@ function PlayerStingState:update(dt)
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10
             self.entity.height = self.height_idle
+            self.entity.flag_dashJump = false
+            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
             return
         else
             self.entity:changeState('idle', {delay_dashJump = 0.5, delay_animation = 0.1})
             self.entity:changeAnimation('special_dashToIdle')
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
+            self.entity.flag_dashJump = false
+            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
             return
         end    
     end
@@ -66,6 +76,7 @@ function PlayerStingState:update(dt)
         self.entity:changeState('jump')
         self.entity.y = self.entity.y - 10 
         self.entity.height = self.height_idle
+        table.remove(self.entity.hitboxes, #self.entity.hitboxes)
         return
     end
 end

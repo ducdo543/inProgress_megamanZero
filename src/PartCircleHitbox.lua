@@ -16,8 +16,11 @@ function PartCircleHitbox:init(def)
     self.dx = def.dx 
     self.dy = def.dy 
 
-    -- flag movement target
+    -- flag movement target like bullet
     self.movement = def.movement 
+    -- flag stick hitbox with player during slash state
+    self.flag_stick = def.flag_stick
+    self.entity = def.entity -- receive player position
 
     -- to delete hitbox after some time 
     self.time_disappear = def.time_disappear or nil
@@ -35,6 +38,15 @@ function PartCircleHitbox:update(dt)
     if self.movement == true then 
         self.cx = self.cx + self.dx * dt
         self.cy = self.cy + self.dy * dt 
+    end
+
+    if self.flag_stick == true then 
+        if self.type_slash == 'sting' then
+            self.cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width)
+            self.cy = self.entity.y + self.entity.height * 2/3
+            self.start_angle = self.entity.direction == 'right' and math.rad(-5) or math.rad(175)
+            self.end_angle = self.start_angle + self.cover_angle
+        end
     end
 end
 

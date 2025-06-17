@@ -49,6 +49,7 @@ gTextures = {
     ['player-idle'] = love.graphics.newImage('graphics/player_idle.png'),
     ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png'),
     ['player-dash'] = love.graphics.newImage('graphics/player_dash.png'),
+    ['player-sting'] = love.graphics.newImage('graphics/player_sting.png'),
     ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png'),
     ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png')
 
@@ -59,6 +60,7 @@ gFrames = {
     ['player-idle'] = GenerateQuads(gTextures['player-idle'], 130, 1000),
     ['player-jump-fall'] = GenerateQuads(gTextures['player-jump-fall'], 130, 215),
     ['player-dash'] = GenerateQuads(gTextures['player-dash'], 150, 150),
+    ['player-sting'] = GenerateQuads(gTextures['player-sting'], 270, 170),
     ['player-normal-slash'] = GenerateQuads(gTextures['player-normal-slash'], 280, 220),
     ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140)
 }
