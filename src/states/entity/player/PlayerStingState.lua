@@ -13,16 +13,16 @@ function PlayerStingState:init(player)
     self.entity.height = self.height_dash
 
     self.time_accumulate = 0
+
 end
 
 
 function PlayerStingState:enter(params)
     self.entity:changeAnimation("sting")
-
     -- insert hitbox
     table.insert(self.entity.hitboxes, PartCircleHitbox({
         cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
-        cy = self.entity.y + self.entity.height * 2/3,
+        cy = self.entity.y + self.entity.height * 2/3 - 3,
         radius = 38,
         start_angle = self.entity.direction == 'right' and (-5) or (175),
         cover_angle = 10,
@@ -30,8 +30,10 @@ function PlayerStingState:enter(params)
         dy = 0,
         flag_stick = true,
         entity = self.entity,
-        type_slash = "sting"
+        type_slash = "sting",
+        can_push = true
     }))
+    
 end
 
 function PlayerStingState:update(dt)
@@ -53,11 +55,20 @@ function PlayerStingState:update(dt)
     -- dash sting distance = 22.5 -> 0.15s is max
     self.time_accumulate = self.time_accumulate + dt
     if self.time_accumulate > 22.5/self.entity.dashSpeed then
+        -- spam sting
+        if love.keyboard.isDown('v') then 
+            self.entity.y = self.entity.y - 10 
+            self.entity.height = self.height_idle
+            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
+            self.entity:changeState('sting')            
+
+            return
+        end
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10
             self.entity.height = self.height_idle
-            self.entity.flag_dashJump = false
+            
             table.remove(self.entity.hitboxes, #self.entity.hitboxes)
             return
         else
@@ -79,6 +90,7 @@ function PlayerStingState:update(dt)
         table.remove(self.entity.hitboxes, #self.entity.hitboxes)
         return
     end
+
 end
 
 function PlayerStingState:render()

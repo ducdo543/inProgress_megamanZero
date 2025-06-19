@@ -17,6 +17,10 @@ function Animation:init(def)
     self.special_frames = def.special_frames
     self.special_interval = def.special_interval
     self.special_currentFrame = 1
+
+    -- offsetX, Y
+    self.offsetX = def.offsetX
+    self.offsetY = def.offsetY
 end
 
 function Animation:update(dt)

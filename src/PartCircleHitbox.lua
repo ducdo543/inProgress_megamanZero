@@ -18,6 +18,7 @@ function PartCircleHitbox:init(def)
 
     -- flag movement target like bullet
     self.movement = def.movement 
+
     -- flag stick hitbox with player during slash state
     self.flag_stick = def.flag_stick
     self.entity = def.entity -- receive player position
@@ -26,8 +27,12 @@ function PartCircleHitbox:init(def)
     self.time_disappear = def.time_disappear or nil
     self.time_accumulate = 0
 
-    -- what type of slash is mark in hitbox
+    -- what type of slash and ability is mark in hitbox
     self.type_slash = def.type_slash or nil
+    self.can_push = def.can_push or false
+
+    -- what attack_id is mark in hitbox 
+    self.attack_id = def.attack_id or nil
 
     -- retent entities that being hit cause we just want this hitbox hit each entity 1 time.
     self.wasHitted_entities = {} -- structure lookup like self.wasHitted_entities[enermy] = true
@@ -43,7 +48,7 @@ function PartCircleHitbox:update(dt)
     if self.flag_stick == true then 
         if self.type_slash == 'sting' then
             self.cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width)
-            self.cy = self.entity.y + self.entity.height * 2/3
+            self.cy = self.entity.y + self.entity.height * 2/3 - 3
             self.start_angle = self.entity.direction == 'right' and math.rad(-5) or math.rad(175)
             self.end_angle = self.start_angle + self.cover_angle
         end

@@ -32,7 +32,9 @@ function Entity:createAnimations(animations)
             interval = animationDef.interval,
             ratio = animationDef.ratio,
             special_frames = animationDef.special_frames or nil,
-            special_interval = animationDef.special_interval or nil
+            special_interval = animationDef.special_interval or nil,
+            offsetX = animationDef.offsetX,
+            offsetY = animationDef.offsetY
         }
     end
 
@@ -62,4 +64,9 @@ end
 
 function Entity:render()
     self.stateMachine:render()
+
+    -- for checking positions
+    -- love.graphics.setColor(1, 0, 0)
+    -- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    -- love.graphics.setColor(1, 1, 1)
 end

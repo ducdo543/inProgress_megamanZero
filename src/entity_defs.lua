@@ -14,7 +14,9 @@ ENTITY_DEFS = {
                 frames = {1, 2, 3, 4 ,5 ,6},
                 interval = 0.12,
                 texture = 'player-idle',
-                ratio = 1/5
+                ratio = 1/5,
+                offsetX = 8,
+                offsetY = 0
             },
             ['jump'] = {
                 frames = {1, 2, 3, 4},
@@ -75,7 +77,9 @@ ENTITY_DEFS = {
                 interval = 0.04,
                 texture = 'player-beHitted',
                 looping = true,
-                ratio = 1/5
+                ratio = 1/5,
+                offsetX = 6,
+                offsetY = 1
             },
             ['sting'] = {
                 frames = {1, 2, 3, 4, 5, 6, 7, 8, 9},

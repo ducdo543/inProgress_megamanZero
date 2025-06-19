@@ -32,6 +32,7 @@ require 'src/Enermy1'
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/EntityBeHittedState'
+require 'src/states/entity/EntityBePushedState'
 
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'

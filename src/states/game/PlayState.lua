@@ -36,7 +36,8 @@ function PlayState:generateEntities()
             stateMachine = StateMachine {
             ['idle'] = function() return EntityIdleState(self.entities.type1.enemies[1]) end,
             ['walk'] = function() return EntityWalkState(self.entities.type1.enemies[1]) end,
-            ['beHitted'] = function() return Enermy1BeHittedState(self.entities.type1.enemies[1]) end
+            ['beHitted'] = function() return Enermy1BeHittedState(self.entities.type1.enemies[1]) end,
+            ['bePushed'] = function() return EntityBePushedState(self.entities.type1.enemies[1], GRAVITY) end
             },
             walkSpeed = ENTITY_DEFS['player'].walkSpeed
         })
@@ -71,16 +72,23 @@ function PlayState:update(dt)
                 --         wasHitted = true 
                 --         break 
                 --     end
-
+                print(hitbox.radius)
                 if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
+                    -- one hitbox just can hit each enermy 1 time
+                    hitbox.wasHitted_entities[enermy] = true                    
+                    
                     -- table.remove(enermyData.enemies, i)
-                    enermy:changeState('beHitted')
-                    hitbox.wasHitted_entities[enermy] = true
-                    -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes to true
-                    if hitbox.type_slash then
+                    if hitbox.can_push == true and enermy.can_bePushed == true then
+                        enermy:changeState('bePushed', {player = self.player, hurtbox = hitbox})
+                    else
+                        enermy:changeState('beHitted')
+                    end
+
+                    -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes.wasHitted to true
+                    if hitbox.attack_id then
                         for j = k-2, k+2 do 
                             if j > 0 and j <= #self.player.hitboxes then
-                                if self.player.hitboxes[j].type_slash == hitbox.type_slash then
+                                if self.player.hitboxes[j].attack_id == hitbox.attack_id then
                                     self.player.hitboxes[j].wasHitted_entities[enermy] = true 
                                 end
                             end

@@ -49,6 +49,7 @@ function PlayerNormalSlashState:update(dt)
     end
 
     if self.flag_normalSlash[2] == true then 
+        local attack_id = os.clock()
         self.entity:changeAnimation('normal-slash2')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width + 2) or (self.entity.x - 2),
@@ -60,7 +61,8 @@ function PlayerNormalSlashState:update(dt)
             dy = 0,
             movement = false,
             time_disappear = 0.3,
-            type_slash = 'normal-slash2'
+            type_slash = 'normal-slash2',
+            attack_id = attack_id
         }))
         -- add arc
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -73,13 +75,15 @@ function PlayerNormalSlashState:update(dt)
             dy = 0,
             movement = false,
             time_disappear = 0.3,
-            type_slash = 'normal-slash2'
+            type_slash = 'normal-slash2',
+            attack_id = attack_id
         }))
 
         self.flag_normalSlash[2] = false
     end        
 
     if self.flag_normalSlash[3] == true then 
+        local attack_id = os.clock()
         self.entity:changeAnimation('normal-slash3')
         table.insert(self.entity.hitboxes, PartCircleHitbox({
             cx = self.entity.direction == 'right' and (self.entity.x + self.entity.width/2 + 4) or (self.entity.x + self.entity.width/2 - 4),
@@ -91,7 +95,8 @@ function PlayerNormalSlashState:update(dt)
             dy = 0,
             movement = false,
             time_disappear = 0.3,
-            type_slash = 'normal-slash3'
+            type_slash = 'normal-slash3',
+            attack_id = attack_id
         }))
 
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -104,7 +109,8 @@ function PlayerNormalSlashState:update(dt)
             dy = 0,
             movement = false,
             time_disappear = 0.3,
-            type_slash = 'normal-slash3'
+            type_slash = 'normal-slash3',
+            attack_id = attack_id
         }))
 
         self.flag_normalSlash[3] = false
