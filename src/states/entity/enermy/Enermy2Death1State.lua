@@ -8,40 +8,13 @@ function Enermy2Death1State:init(entity, gravity)
 
     -- debrises of enermy 
 
-    self.debri1 = {x = self.entity.x, y = self.entity.y, angle = 0, w = - math.rad(30)}
-    self.debri2 = {x = self.entity.x, y = self.entity.y, width = self.entity.width, height = self.entity.height * 1/2, dx = -20, dy = -50}
+    self.debri1 = {x = self.entity.x + 3, y = self.entity.y + 6, width = self.entity.width, height = self.entity.height - 6, angle = 0, w = - math.rad(180), frame = 2}
+    self.debri2 = {x = self.entity.x, y = self.entity.y, width = self.entity.width, height = self.entity.height * 1/2, dx = -20, dy = -50, frame = 3}
     self.debri3 = nil 
     self.debri4 = nil
 
     -- explode 
-    self.explode1 = {x = self.entity.x + self.entity.width * 1/2, y = self.entity.y,
-        anime = nil, timer = 0.25,
-        render = function(self) 
-            love.graphics.draw(gTextures[self.anime.texture], gFrames[self.anime.texture][self.anime:getCurrentFrame()],
-                math.floor(self.x - self.anime.offsetX), math.floor(self.y), 0 , self.anime.ratio, self.anime.ratio)
-        end,
-
-        update = function(self, dt)
-            self.timer = self.timer - dt
-            self.anime:update(dt)
-        end,
-
-        isFinished = function(self)
-            return self.timer <= 0
-        end
-    }
-
-    local animationDef = ENTITY_DEFS['enermy2'].animations['explode']
-    self.explode1.anime = Animation({
-        texture = animationDef.texture,
-        frames = animationDef.frames,
-        interval = animationDef.interval,
-        ratio = animationDef.ratio,
-        special_frames = animationDef.special_frames or nil,
-        special_interval = animationDef.special_interval or nil,
-        offsetX = animationDef.offsetX,
-        offsetY = animationDef.offsetY        
-    })
+    self.explode1 = Explode({x = self.entity.x + self.entity.width * 1/2, y = self.entity.y})
 
 end
 
@@ -56,6 +29,14 @@ function Enermy2Death1State:update(dt)
     -- debri1
     if self.debri1 then
         self.debri1.angle = self.debri1.angle + self.debri1.w * dt
+        if math.abs(self.debri1.angle) >= math.rad(90) then 
+            self.explode2 = Explode({
+                x = self.debri1.x - self.debri1.width * 2/3,
+                y = self.debri1.y + self.debri1.height * 1/3
+            })
+            table.insert(self.player.effectsAfterPlayer, self.explode2)
+            self.debri1 = nil 
+        end
     end
 
     -- debri2
@@ -66,8 +47,8 @@ function Enermy2Death1State:update(dt)
         self.debri2.y = self.debri2.y + self.debri2.dy * dt
 
         if self.debri2.y >= 100 + self.entity.height then  
-            self.debri3 = {x = self.debri2.x, y = self.debri2.y, width = 3, height = 3, dx = -30, dy = -140}
-            self.debri4 = {x = self.debri2.x, y = self.debri2.y, width = 3, height = 3, dx = -30, dy = -120}
+            self.debri3 = {x = self.debri2.x, y = self.debri2.y, width = 6, height = 6, dx = -30, dy = -140, frame = 4}
+            self.debri4 = {x = self.debri2.x + 10, y = self.debri2.y + 6, width = 6, height = 6, dx = -30, dy = -120, frame = 5}
             self.debri2 = nil 
         end
     end
@@ -91,11 +72,17 @@ function Enermy2Death1State:update(dt)
 end
 
 function Enermy2Death1State:render()
+    local anim = ENTITY_DEFS['enermy2'].animations['death1']
+
     -- debri1
     if self.debri1 then
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle("fill", self.debri1.x, self.debri1.y, self.entity.width, self.entity.height)
-        love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][self.debri1.frame],
+            math.floor(self.debri1.x - self.debri1.width * 1/4), math.floor(self.debri1.y + self.debri1.height), 
+            self.debri1.angle, anim.ratio, anim.ratio,
+            math.floor((self.debri1.width * 1/4) * 5 ), math.floor((self.debri1.height) * 5))
+        -- love.graphics.setColor(1, 0, 0)
+        -- love.graphics.rectangle("fill", self.debri1.x, self.debri1.y, self.entity.width, self.entity.height)
+        -- love.graphics.setColor(1, 1, 1)
     end
     -- debri2
     if self.debri2 then

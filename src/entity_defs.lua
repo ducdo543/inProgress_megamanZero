@@ -106,6 +106,24 @@ ENTITY_DEFS = {
                 offsetX = 8,
                 offsetY = 0
             },
+            ['death1'] = {
+                frames = {}, -- not for looping, but each frame is for each debri
+                texture = 'enermy2-death1',
+                ratio = 1/5  
+            },
+            ['explode'] = {
+                frames = {1, 2, 3, 4, 5, 6},
+                texture = 'enermy-explode',
+                interval = 0.03,
+                looping = true,
+                ratio = 1/10,
+                offsetX = 10,
+                offsetY = 0
+            }
+        }
+    },
+    ['effects'] = {
+        animations = {
             ['explode'] = {
                 frames = {1, 2, 3, 4, 5, 6},
                 texture = 'enermy-explode',

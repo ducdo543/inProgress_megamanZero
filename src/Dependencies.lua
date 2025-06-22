@@ -26,6 +26,7 @@ require 'src/states/game/PlayState'
 require 'src/Entity'
 require 'src/Player'
 require 'src/Enermy1'
+require 'src/Explode'
 
 
 -- entity states
@@ -56,6 +57,7 @@ gTextures = {
     ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png'),
 
     ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted_blue.png'),
+    ['enermy2-death1'] = love.graphics.newImage('graphics/enermy2_death1.png'),
     ['enermy-explode'] = love.graphics.newImage('graphics/enermy_explode.png')
 
 }
@@ -70,6 +72,7 @@ gFrames = {
     ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140),
 
     ['enermy2-idle-beHitted'] = GenerateQuads(gTextures['enermy2-idle-beHitted'], 130, 150),
+    ['enermy2-death1'] = GenerateQuads(gTextures['enermy2-death1'], 200, 150),
     ['enermy-explode'] = GenerateQuads(gTextures['enermy-explode'], 200, 150)
 }
 
