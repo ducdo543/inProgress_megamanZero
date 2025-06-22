@@ -6,6 +6,7 @@ end
 
 function EntityIdleState:enter(params)
     self.entity:changeAnimation('idle')
+
     local anim = self.entity.currentAnimation
     self.entity.offsetX = anim.offsetX
     self.entity.offsetY = anim.offsetY

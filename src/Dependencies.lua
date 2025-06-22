@@ -43,6 +43,7 @@ require 'src/states/entity/player/PlayerNormalSlashState'
 require 'src/states/entity/player/PlayerStingState'
 
 require 'src/states/entity/enermy/Enermy1BeHittedState'
+require 'src/states/entity/enermy/Enermy2Death1State'
 
 
 gTextures = {
@@ -52,7 +53,10 @@ gTextures = {
     ['player-dash'] = love.graphics.newImage('graphics/player_dash.png'),
     ['player-sting'] = love.graphics.newImage('graphics/player_sting.png'),
     ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png'),
-    ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png')
+    ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png'),
+
+    ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted_blue.png'),
+    ['enermy-explode'] = love.graphics.newImage('graphics/enermy_explode.png')
 
 }
 
@@ -63,7 +67,10 @@ gFrames = {
     ['player-dash'] = GenerateQuads(gTextures['player-dash'], 150, 150),
     ['player-sting'] = GenerateQuads(gTextures['player-sting'], 270, 170),
     ['player-normal-slash'] = GenerateQuads(gTextures['player-normal-slash'], 280, 220),
-    ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140)
+    ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140),
+
+    ['enermy2-idle-beHitted'] = GenerateQuads(gTextures['enermy2-idle-beHitted'], 130, 150),
+    ['enermy-explode'] = GenerateQuads(gTextures['enermy-explode'], 200, 150)
 }
 
 gFonts = {

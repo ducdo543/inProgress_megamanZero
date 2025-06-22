@@ -14,6 +14,9 @@ function Player:init(def)
 
     -- retent hitboxes in table
     self.hitboxes = {}
+
+    -- to render effects after player so that effects image overwritten player
+    self.effectsAfterPlayer = {}
 end
 
 function Player:update(dt)
@@ -28,11 +31,23 @@ function Player:update(dt)
             table.remove(self.hitboxes, i)
         end
     end
+
+    for i = #self.effectsAfterPlayer, 1, -1 do
+        local effect = self.effectsAfterPlayer[i]
+        effect:update(dt)
+        if effect:isFinished() then
+            table.remove(self.effectsAfterPlayer, i)
+        end
+    end
 end
 
 function Player:render()
     Entity.render(self)
-    for _, hitbox in ipairs(self.hitboxes) do 
-        hitbox:render()
+    -- for _, hitbox in ipairs(self.hitboxes) do 
+    --     hitbox:render()
+    -- end
+
+    for i, effect in ipairs(self.effectsAfterPlayer) do
+        effect:render()
     end
 end

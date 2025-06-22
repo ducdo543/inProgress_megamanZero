@@ -89,6 +89,33 @@ ENTITY_DEFS = {
                 ratio = 1/5
             }
         }
+    },
+    ['enermy2'] = {
+        animations = {
+            ['idle'] = {
+                frames = {1},
+                texture = 'enermy2-idle-beHitted',
+                ratio = 1/5,
+                offsetX = 8,
+                offsetY = 0
+            },
+            ['beHitted'] = {
+                frames = {2},
+                texture = 'enermy2-idle-beHitted',
+                ratio = 1/5,
+                offsetX = 8,
+                offsetY = 0
+            },
+            ['explode'] = {
+                frames = {1, 2, 3, 4, 5, 6},
+                texture = 'enermy-explode',
+                interval = 0.03,
+                looping = true,
+                ratio = 1/10,
+                offsetX = 10,
+                offsetY = 0
+            }
+        }
     }
 }
 

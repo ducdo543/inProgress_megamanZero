@@ -33,6 +33,7 @@ function EntityBePushedState:update(dt)
     self.entity.x = self.entity.x + (self.entity.dx * dt)
 
     if self.entity.y >= 100 then 
+        self.entity.y = 100
         self.entity.dy = 0
         self.entity.dx = 0
         self.entity:changeState('idle')

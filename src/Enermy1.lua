@@ -5,6 +5,7 @@ function Enermy1:init(def)
 
     self.walkSpeed = def.walkSpeed 
     self.can_bePushed = true
+
 end
 
 function Enermy1:update(dt)

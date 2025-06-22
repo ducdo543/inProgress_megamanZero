@@ -28,69 +28,84 @@ function PlayState:init()
 end
 
 function PlayState:generateEntities()
-    local type1 = {time_accumulate = 0, time_create = 10, enemies = { --enemies means number of enermy
-        Enermy1({
+    local enermy1 = nil
+    enermy1 = Enermy1({
             animations = ENTITY_DEFS['player'].animations,
             x = 200, y = 100,
             width = 10, height = 25,
             stateMachine = StateMachine {
-            ['idle'] = function() return EntityIdleState(self.entities.type1.enemies[1]) end,
-            ['walk'] = function() return EntityWalkState(self.entities.type1.enemies[1]) end,
-            ['beHitted'] = function() return Enermy1BeHittedState(self.entities.type1.enemies[1]) end,
-            ['bePushed'] = function() return EntityBePushedState(self.entities.type1.enemies[1], GRAVITY) end
+            ['idle'] = function() return EntityIdleState(enermy1) end,
+            ['walk'] = function() return EntityWalkState(enermy1) end,
+            ['beHitted'] = function() return Enermy1BeHittedState(enermy1) end,
+            ['bePushed'] = function() return EntityBePushedState(enermy1, GRAVITY) end
             },
             walkSpeed = ENTITY_DEFS['player'].walkSpeed
         })
-    }}
-    self.entities.type1 = type1
-    -- entities structure: self.entities = {type1 = {...}, type2 = {...}}
 
-    for type, enermyData in pairs(self.entities) do 
-        for __, enermy in ipairs(enermyData.enemies) do
-            enermy:changeState('idle')
-        end
+    local enermy2 = nil
+    enermy2 = Enermy1({
+            animations = ENTITY_DEFS['enermy2'].animations,
+            x = 20, y = 100,
+            width = 10, height = 25,
+            stateMachine = StateMachine {
+            ['idle'] = function() return EntityIdleState(enermy2) end,
+            
+            ['beHitted'] = function() return Enermy1BeHittedState(enermy2) end,
+            ['bePushed'] = function() return EntityBePushedState(enermy2, GRAVITY) end,
+            ['death1'] = function() return Enermy2Death1State(enermy2, GRAVITY) end
+            },
+            walkSpeed = ENTITY_DEFS['player'].walkSpeed
+        })
+
+    
+    table.insert(self.entities, enermy1)
+    table.insert(self.entities, enermy2)
+    -- entities structure: self.entities = {..., ...}
+
+    -- entities don't use structure: self.entities = {type1 = {...}, type2 = {...}}
+    -- specific don't use:           self.entities = {type1 = {time_accumulate = , timer_create = , enemies = {..., ...}, type2 = {...}}
+
+    for __, enermy in ipairs(self.entities) do
+        enermy:changeState('idle')
     end
+
 end
 
 function PlayState:update(dt)
     self.player:update(dt)
 
-    -- update entities.enemies
-    for type, enermyData in pairs(self.entities) do 
-        for __, enermy in ipairs(enermyData.enemies) do
-            enermy:update(dt)
-        end
+    -- update enemies
+    for __, enermy in ipairs(self.entities) do
+        enermy:update(dt)
     end
     
     -- check if hitbox collide with entities.enermies
     for k, hitbox in ipairs(self.player.hitboxes) do 
-        for type, enermyData in pairs(self.entities) do 
-            for i, enermy in ipairs(enermyData.enemies) do
-                -- local wasHitted = false
-                -- for j, wasHitted_enermy in ipairs(hitbox.wasHitted_entities) do 
-                --     if wasHitted_enermy == enermy then 
-                --         wasHitted = true 
-                --         break 
-                --     end
-                print(hitbox.radius)
-                if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
-                    -- one hitbox just can hit each enermy 1 time
-                    hitbox.wasHitted_entities[enermy] = true                    
-                    
-                    -- table.remove(enermyData.enemies, i)
-                    if hitbox.can_push == true and enermy.can_bePushed == true then
-                        enermy:changeState('bePushed', {player = self.player, hurtbox = hitbox})
-                    else
-                        enermy:changeState('beHitted')
-                    end
+        for i, enermy in ipairs(self.entities) do
+            -- local wasHitted = false
+            -- for j, wasHitted_enermy in ipairs(hitbox.wasHitted_entities) do 
+            --     if wasHitted_enermy == enermy then 
+            --         wasHitted = true 
+            --         break 
+            --     end
+            
+            if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
+                -- one hitbox just can hit each enermy 1 time
+                hitbox.wasHitted_entities[enermy] = true                    
+                
+                -- table.remove(enermyData.enemies, i)
+                if hitbox.can_push == true and enermy.can_bePushed == true then
+                    enermy:changeState('bePushed', {player = self.player, hurtbox = hitbox})
+                else
+                    enermy:changeState('death1', {player = self.player})
+                end
 
-                    -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes.wasHitted to true
-                    if hitbox.attack_id then
-                        for j = k-2, k+2 do 
-                            if j > 0 and j <= #self.player.hitboxes then
-                                if self.player.hitboxes[j].attack_id == hitbox.attack_id then
-                                    self.player.hitboxes[j].wasHitted_entities[enermy] = true 
-                                end
+                -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes.wasHitted to true
+                if hitbox.attack_id then
+                    for j = k-2, k+2 do 
+                        if j > 0 and j <= #self.player.hitboxes then
+                            if self.player.hitboxes[j].attack_id == hitbox.attack_id then
+                                self.player.hitboxes[j].wasHitted_entities[enermy] = true 
                             end
                         end
                     end
@@ -102,10 +117,8 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-    for type, enermyData in pairs(self.entities) do 
-        for __, enermy in ipairs(enermyData.enemies) do
-            enermy:render()
-        end
+    for __, enermy in ipairs(self.entities) do
+        enermy:render()
     end
 
     self.player:render()
