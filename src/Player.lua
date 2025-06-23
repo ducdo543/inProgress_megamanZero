@@ -34,9 +34,13 @@ function Player:update(dt)
 
     for i = #self.effectsAfterPlayer, 1, -1 do
         local effect = self.effectsAfterPlayer[i]
-        effect:update(dt)
-        if effect:isFinished() then
-            table.remove(self.effectsAfterPlayer, i)
+        if effect then
+            effect:update(dt)
+            if effect:isFinished() then
+                table.remove(self.effectsAfterPlayer, i)
+            end
+        else
+            table.remove(self.effectsAfterPlayer, i)  -- optional: clean nils
         end
     end
 end

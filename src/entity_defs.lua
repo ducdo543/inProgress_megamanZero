@@ -113,7 +113,7 @@ ENTITY_DEFS = {
             },
             ['explode'] = {
                 frames = {1, 2, 3, 4, 5, 6},
-                texture = 'enermy-explode',
+                texture = 'effect-explode',
                 interval = 0.03,
                 looping = true,
                 ratio = 1/10,
@@ -126,12 +126,21 @@ ENTITY_DEFS = {
         animations = {
             ['explode'] = {
                 frames = {1, 2, 3, 4, 5, 6},
-                texture = 'enermy-explode',
+                texture = 'effect-explode',
                 interval = 0.03,
                 looping = true,
                 ratio = 1/10,
                 offsetX = 10,
                 offsetY = 0
+            },
+            ['smoke'] = {
+                frames = {1, 2, 3, 4},
+                texture = 'effect-smoke',
+                interval = 0.03,
+                looping = false,
+                ratio = 1/5,
+                offsetX = 5,
+                offsetY = 5
             }
         }
     }
