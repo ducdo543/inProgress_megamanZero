@@ -30,6 +30,8 @@ function PartCircleHitbox:init(def)
     -- what type of slash and ability is mark in hitbox
     self.type_slash = def.type_slash or nil
     self.can_push = def.can_push or false
+    -- what damage hitbox cause
+    self.damage = def.damage or 0
 
     -- what attack_id is mark in hitbox 
     self.attack_id = def.attack_id or nil

@@ -42,7 +42,8 @@ function PlayerNormalSlashState:update(dt)
             dx = 0,
             dy = 0,
             movement = false,
-            time_disappear = 0.15
+            time_disappear = 0.15,
+            damage = 1
         }))
 
         self.flag_normalSlash[1] = false
@@ -62,7 +63,8 @@ function PlayerNormalSlashState:update(dt)
             movement = false,
             time_disappear = 0.3,
             type_slash = 'normal-slash2',
-            attack_id = attack_id
+            attack_id = attack_id,
+            damage = 2
         }))
         -- add arc
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -76,7 +78,8 @@ function PlayerNormalSlashState:update(dt)
             movement = false,
             time_disappear = 0.3,
             type_slash = 'normal-slash2',
-            attack_id = attack_id
+            attack_id = attack_id,
+            damage = 2
         }))
 
         self.flag_normalSlash[2] = false
@@ -96,7 +99,8 @@ function PlayerNormalSlashState:update(dt)
             movement = false,
             time_disappear = 0.3,
             type_slash = 'normal-slash3',
-            attack_id = attack_id
+            attack_id = attack_id,
+            damage = 2
         }))
 
         table.insert(self.entity.hitboxes, PartCircleHitbox({
@@ -110,7 +114,8 @@ function PlayerNormalSlashState:update(dt)
             movement = false,
             time_disappear = 0.3,
             type_slash = 'normal-slash3',
-            attack_id = attack_id
+            attack_id = attack_id,
+            damage = 2
         }))
 
         self.flag_normalSlash[3] = false

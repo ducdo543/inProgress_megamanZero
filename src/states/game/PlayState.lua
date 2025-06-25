@@ -74,9 +74,15 @@ end
 function PlayState:update(dt)
     self.player:update(dt)
 
-    -- update enemies
-    for __, enermy in ipairs(self.entities) do
-        enermy:update(dt)
+    -- update enemies and delete if enermy is nil
+    for i = #self.entities, 1, -1 do
+        local enermy = self.entities[i]
+        if enermy then
+            enermy:update(dt)
+        elseif enermy == false then 
+            table.remove(self.entities, i)
+            print("remove work")
+        end
     end
     
     -- check if hitbox collide with entities.enermies
@@ -89,15 +95,25 @@ function PlayState:update(dt)
             --         break 
             --     end
             
-            if not hitbox.wasHitted_entities[enermy] and hitbox:collide_rectangle(enermy) then
+            if not hitbox.wasHitted_entities[enermy] and 
+                hitbox:collide_rectangle(enermy) and 
+                enermy.flag_deathState == false    
+            then
+
                 -- one hitbox just can hit each enermy 1 time
-                hitbox.wasHitted_entities[enermy] = true                    
+                hitbox.wasHitted_entities[enermy] = true 
+                
+                enermy.heart = enermy.heart - hitbox.damage
                 
                 -- table.remove(enermyData.enemies, i)
-                if hitbox.can_push == true and enermy.can_bePushed == true then
-                    enermy:changeState('bePushed', {player = self.player, hurtbox = hitbox})
-                else
+                if enermy.heart <= 0 then
                     enermy:changeState('death1', {player = self.player})
+                elseif enermy.heart > 0 then 
+                    if hitbox.can_push == true and enermy.can_bePushed == true then
+                        enermy:changeState('bePushed', {player = self.player, hurtbox = hitbox})
+                    else 
+                        enermy:changeState('beHitted')    
+                    end
                 end
 
                 -- one slash may contain 2 or 3 hitboxes (close to each other), we must find them and also assign those hitboxes.wasHitted to true

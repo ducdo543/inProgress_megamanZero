@@ -6,6 +6,8 @@ function Enermy2Death1State:init(entity, gravity)
 
     self.time_accumulate = 0
 
+    self.entity.flag_deathState = true   
+
     -- debrises of enermy 
 
     self.debri1 = Debri({
@@ -128,6 +130,11 @@ function Enermy2Death1State:update(dt)
         end
         
     end    
+
+    -- to delete enermy from table entities when it done
+    if self.debri3 == nil and self.debri4 == nil then
+        self.entity = false
+    end
 
 end
 
