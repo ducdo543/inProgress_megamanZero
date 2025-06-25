@@ -132,8 +132,8 @@ function Enermy2Death1State:update(dt)
     end    
 
     -- to delete enermy from table entities when it done
-    if self.debri3 == nil and self.debri4 == nil then
-        self.entity = false
+    if self.smoke1 and self.smoke2 then
+        self.entity.dead = true
     end
 
 end

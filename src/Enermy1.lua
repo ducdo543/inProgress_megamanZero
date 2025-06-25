@@ -10,6 +10,8 @@ function Enermy1:init(def)
 
     -- at death state, enermy can not be hitted
     self.flag_deathState = false 
+    -- if already dead, remove enermy from table entities
+    self.dead = false
 end
 
 function Enermy1:update(dt)

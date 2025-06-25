@@ -77,11 +77,10 @@ function PlayState:update(dt)
     -- update enemies and delete if enermy is nil
     for i = #self.entities, 1, -1 do
         local enermy = self.entities[i]
-        if enermy then
-            enermy:update(dt)
-        elseif enermy == false then 
+        if enermy and enermy.dead then
             table.remove(self.entities, i)
-            print("remove work")
+        elseif enermy then 
+            enermy:update(dt)
         end
     end
     
