@@ -1,7 +1,16 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
-    self.entities = {} -- to include enermies
+    self.entities = {} -- to include enemies for update and render
+    self.regenerate_enemies = {} -- have conditions to generate enemies after some time
+    -- Example: self.regenerate_enemies = {key1 = {..., ...},
+    --                                     key2 = {...,...}}
+    self.regenerate_enemies = {
+        generateEnermy2 = {time_accumulate = 0,
+            time_create = 2, 
+            func_regenerate = function() return self:generateEnermy2() end, 
+            enemies = {}}
+    }
 
     self.gravityAmount = GRAVITY
     self.player = Player({
@@ -128,7 +137,63 @@ function PlayState:update(dt)
             end
         end
     end
-                
+    
+    -- consider table self.regenerate_enemies
+    -- when enemies of each sub_table don't have or all dead, update time_accumulate
+    for key, generateData in pairs(self.regenerate_enemies) do 
+        local regenerate = true
+        if #generateData.enemies == 0 then 
+            regenerate = true 
+        end
+        for i, enermy in ipairs(generateData.enemies) do 
+            if enermy.dead == false then 
+                regenerate = false 
+                break
+            end
+        end
+        
+        if regenerate == true then 
+            generateData.time_accumulate = generateData.time_accumulate + dt 
+            if generateData.time_accumulate >= generateData.time_create then 
+                generateData.func_regenerate()
+            end
+        end
+    end
+end
+
+function PlayState:generateEnermy2()
+    local regenerate = true
+
+    local enermy = nil  
+    enermy = Enermy1({
+        animations = ENTITY_DEFS['enermy2'].animations,
+        x = 20, y = 100,
+        width = 10, height = 25,
+        stateMachine = StateMachine {
+        ['idle'] = function() return EntityIdleState(enermy) end,
+        
+        ['beHitted'] = function() return Enermy1BeHittedState(enermy) end,
+        ['bePushed'] = function() return EntityBePushedState(enermy, GRAVITY) end,
+        ['death1'] = function() return Enermy2Death1State(enermy, GRAVITY) end
+        },
+        walkSpeed = ENTITY_DEFS['player'].walkSpeed
+
+        
+    })
+
+    -- add enermy in table self.entities 
+    table.insert(self.entities, enermy)
+
+    -- if regenerate, add enemy in table self.regenerate_enemies
+    if regenerate == true then 
+        local key = self.regenerate_enemies.generateEnermy2
+        key.enemies = {enermy}
+        key.time_accumulate = 0
+    end
+end
+
+function PlayState:CoolDown_GenerateEnermy()
+    
 end
 
 function PlayState:render()
