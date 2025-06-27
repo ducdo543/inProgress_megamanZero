@@ -1,42 +1,29 @@
-PlayerStingState = Class{__includes = BaseState}
+PlayerDashSlashState = Class{__includes = BaseState}
 
-function PlayerStingState:init(player)
+function PlayerDashSlashState:init(player)
     self.entity = player 
 
-    self.entity.offsetX = 9 -- 45/5
-    self.entity.offsetY = 14 -- 70/5
-
-    self.height_idle = self.entity.height
+    self.height_idle = self.entity.height 
     self.height_dash = 16          -- 80/5
 
-    self.entity.y = self.entity.y + 10       -- window size go down 1 segment y = 50
-    self.entity.height = self.height_dash
+    self.entity.y = self.entity.y + 10     -- window size go down 1 segment y = 50
+    self.entity.height = self.height_dash 
 
-    self.time_accumulate = 0
-
+    self.time_accumulate = 0 
 end
 
+function PlayerDashSlashState:enter(params)
+    self.entity:changeAnimation('dash-slash')
+    -- get offset
+    local anim = self.entity.currentAnimation
+    self.entity.offsetX = anim.offsetX
+    self.entity.offsetY = anim.offsetY
 
-function PlayerStingState:enter(params)
-    self.entity:changeAnimation("sting")
     -- insert hitbox
-    table.insert(self.entity.hitboxes, PartCircleHitbox({
-        cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
-        cy = self.entity.y + self.entity.height * 2/3 - 3,
-        radius = 38,
-        start_angle = self.entity.direction == 'right' and (-5) or (175),
-        cover_angle = 10,
-        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
-        dy = 0,
-        flag_stick = true,
-        entity = self.entity,
-        type_slash = "sting",
-        can_push = true
-    }))
-    
+
 end
 
-function PlayerStingState:update(dt)
+function PlayerDashSlashState:update(dt)
     -- go in small steps of 1 pixel to check for collision
     local distance = self.entity.dashSpeed * dt
     local step = 1
@@ -50,20 +37,10 @@ function PlayerStingState:update(dt)
         end
         moved = moved + step
     end
-    
 
-    -- dash sting distance = 22.5 -> 0.15s is max
+    -- dashSlash distance = 36 -> 0.24s is max
     self.time_accumulate = self.time_accumulate + dt
-    if self.time_accumulate > 22.5/self.entity.dashSpeed then
-        -- spam sting
-        if love.keyboard.isDown('v') then 
-            self.entity.y = self.entity.y - 10 
-            self.entity.height = self.height_idle
-            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
-            self.entity:changeState('sting')            
-
-            return
-        end
+    if self.time_accumulate > 36/self.entity.dashSpeed then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10
@@ -92,7 +69,7 @@ function PlayerStingState:update(dt)
 
 end
 
-function PlayerStingState:render()
+function PlayerDashSlashState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.direction == 'left' and self.entity.x + self.entity.offsetX + self.entity.width  or self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY), 0 , self.entity.direction == "left" and -anim.ratio or anim.ratio, anim.ratio)

@@ -87,6 +87,15 @@ ENTITY_DEFS = {
                 texture = 'player-sting',
                 looping = false,
                 ratio = 1/5
+            },
+            ['dash-slash'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7},
+                interval = 0.04,
+                texture = 'player-dash-slash',
+                looping = false,
+                ratio = 1/5,
+                offsetX = 10,
+                offsetY = 14
             }
         }
     },

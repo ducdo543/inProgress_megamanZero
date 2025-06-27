@@ -26,6 +26,8 @@ function Enermy2Death1State:init(entity, gravity)
     })
     self.debri3 = nil 
     self.debri4 = nil
+    self.smoke1 = nil 
+    self.smoke2 = nil
 
     -- explode 
     self.explode1 = Effect({
@@ -120,12 +122,12 @@ function Enermy2Death1State:update(dt)
             self.debri4.flag_finished = true 
             self.debri4.y = 125 - 6
 
-            self.smoke1 = Effect({
+            self.smoke2 = Effect({
                 x = self.debri4.x + self.debri4.width / 2,
                 y = self.debri4.y + self.debri4.height / 2,
                 animationDef = ENTITY_DEFS['effects'].animations['smoke']
             })
-            table.insert(self.player.effectsAfterPlayer, self.smoke1)
+            table.insert(self.player.effectsAfterPlayer, self.smoke2)
             self.debri4 = nil
         end
         
@@ -133,6 +135,7 @@ function Enermy2Death1State:update(dt)
 
     -- to delete enermy from table entities when it done
     if self.smoke1 and self.smoke2 then
+        print('dead work')
         self.entity.dead = true
     end
 

@@ -120,6 +120,14 @@ function PlayerDashState:update(dt)
         self.entity:changeState('sting')
         return
     end
+
+    if love.keyboard.wasPressed('c') or love.keyboard.isDown('c') then
+        self.entity.y = self.entity.y - 10
+        self.entity.height = self.height_idle
+        self.entity:changeState('dash-slash')
+        return
+    end
+
 end
 
 function PlayerDashState:render()

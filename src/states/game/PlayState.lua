@@ -4,10 +4,10 @@ function PlayState:init()
     self.entities = {} -- to include enemies for update and render
     self.regenerate_enemies = {} -- have conditions to generate enemies after some time
     -- Example: self.regenerate_enemies = {key1 = {..., ...},
-    --                                     key2 = {...,...}}
+    --                                     key2 = {..., ...}}
     self.regenerate_enemies = {
         generateEnermy2 = {time_accumulate = 0,
-            time_create = 2, 
+            time_create = 0.1, 
             func_regenerate = function() return self:generateEnermy2() end, 
             enemies = {}}
     }
@@ -21,6 +21,7 @@ function PlayState:init()
             ['idle'] = function() return PlayerIdleState(self.player) end,
             ['walk'] = function() return PlayerWalkState(self.player) end,
             ['dash'] = function() return PlayerDashState(self.player) end,
+            ['dash-slash'] = function() return PlayerDashSlashState(self.player) end,
             ['normal-slash'] = function() return PlayerNormalSlashState(self.player) end,
             ['sting'] = function() return PlayerStingState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
@@ -167,7 +168,7 @@ function PlayState:generateEnermy2()
     local enermy = nil  
     enermy = Enermy1({
         animations = ENTITY_DEFS['enermy2'].animations,
-        x = 20, y = 100,
+        x = 100, y = 100,
         width = 10, height = 25,
         stateMachine = StateMachine {
         ['idle'] = function() return EntityIdleState(enermy) end,
@@ -180,15 +181,15 @@ function PlayState:generateEnermy2()
 
         
     })
-
+    enermy:changeState('idle')
     -- add enermy in table self.entities 
     table.insert(self.entities, enermy)
 
     -- if regenerate, add enemy in table self.regenerate_enemies
     if regenerate == true then 
-        local key = self.regenerate_enemies.generateEnermy2
-        key.enemies = {enermy}
-        key.time_accumulate = 0
+        local generateData = self.regenerate_enemies.generateEnermy2
+        generateData.enemies = {enermy}
+        generateData.time_accumulate = 0
     end
 end
 
