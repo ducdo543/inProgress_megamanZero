@@ -15,7 +15,7 @@ function PlayState:init()
     self.gravityAmount = GRAVITY
     self.player = Player({
         animations = ENTITY_DEFS['player'].animations,
-        x = 120, y = 100,
+        x = 120, y = 75, -- y 100
         width = 10, height = 25, -- windowsize of player: width = 50, height = 125. We need to /5 to calculate virtual size
         stateMachine = StateMachine {
             ['idle'] = function() return PlayerIdleState(self.player) end,

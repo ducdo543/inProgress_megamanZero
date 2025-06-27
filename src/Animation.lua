@@ -5,7 +5,7 @@ function Animation:init(def)
     self.frames = def.frames
     self.interval = def.interval
     self.ratio = def.ratio
-    -- self.looping = def.looping == false and false or true
+    -- Lua don't understand this case: self.looping = def.looping == false and false or true
     self.timer = 0
     self.currentFrame = 1
 

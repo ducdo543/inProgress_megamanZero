@@ -10,6 +10,11 @@ function PlayerDashSlashState:init(player)
     self.entity.height = self.height_dash 
 
     self.time_accumulate = 0 
+
+    -- some hitboxes we use for this dash slash
+    self.hitbox1 = nil 
+    self.hitbox2 = nil
+    self.hitbox3 = nil
 end
 
 function PlayerDashSlashState:enter(params)
@@ -21,7 +26,7 @@ function PlayerDashSlashState:enter(params)
     print(anim.looping)
 
     -- insert hitbox
-
+    self:insertHitbox()
 end
 
 function PlayerDashSlashState:update(dt)
@@ -39,35 +44,86 @@ function PlayerDashSlashState:update(dt)
         moved = moved + step
     end
 
-    -- dashSlash distance = 36 -> 0.24s is max
+    -- dashSlash distance = 38 -> 0.27s is max
     self.time_accumulate = self.time_accumulate + dt
-    if self.time_accumulate > 255/self.entity.dashSpeed then
+    if self.time_accumulate > 38/self.entity.dashSpeed then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10
             self.entity.height = self.height_idle
             
-            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
             return
         else
             self.entity:changeState('idle', {delay_dashJump = 0.5, delay_animation = 0.1})
             self.entity:changeAnimation('special_dashToIdle')
             self.entity.y = self.entity.y - 10 
             self.entity.height = self.height_idle
-            table.remove(self.entity.hitboxes, #self.entity.hitboxes)
+            
             return
         end    
     end
 
     -- jump
     if love.keyboard.wasPressed('x') or love.keyboard.isDown('x') then --case when press z and x simultaneously. keypressed just receive 1 key in each frame, so DashState don't know whether we also press x, so i put isDown here to cover this case
-        self.entity:changeState('jump')
         self.entity.y = self.entity.y - 10 
         self.entity.height = self.height_idle
-        table.remove(self.entity.hitboxes, #self.entity.hitboxes)
+        self.entity:changeState('jump')
+        
         return
     end
 
+end
+
+function PlayerDashSlashState:insertHitbox()
+    local attack_id = os.clock()
+    self.hitbox1 = PartCircleHitbox({
+        cx = self.entity.direction == 'right' and self.entity.x or (self.entity.x + self.entity.width),
+        cy = self.entity.y + self.entity.height - 2,
+        radius = 6,
+        start_angle = self.entity.direction == 'right' and (0) or (30),
+        cover_angle = 150,
+        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
+        dy = 0,
+        movement = true,
+        attack_id = attack_id,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox1)
+    -- add arc
+    self.hitbox2 = PartCircleHitbox({
+        cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+        cy = self.entity.y + 4,
+        radius = 12,
+        start_angle = (-180),
+        cover_angle = 180,
+        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
+        dy = 0,
+        movement = true,
+        attack_id = attack_id,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox2)
+    -- add arc
+    self.hitbox3 = PartCircleHitbox({
+        cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+        cy = self.entity.y + 4,
+        radius = 12,
+        start_angle = 0,
+        cover_angle = 180,
+        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
+        dy = 0,
+        movement = true,
+        attack_id = attack_id,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox3)
+end
+
+function PlayerDashSlashState:exit()
+    -- finish hitbox we want
+    self.hitbox1.flag_finished = true 
+    self.hitbox2.flag_finished = true
+    self.hitbox3.flag_finished = true
 end
 
 function PlayerDashSlashState:render()

@@ -27,7 +27,7 @@ function Player:update(dt)
         hitbox:update(dt)
 
         -- hitbox disappear when reach time out
-        if hitbox:delete(dt) then 
+        if hitbox:isFinished() then 
             table.remove(self.hitboxes, i)
         end
     end

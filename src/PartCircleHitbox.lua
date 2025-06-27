@@ -36,11 +36,15 @@ function PartCircleHitbox:init(def)
     -- what attack_id is mark in hitbox 
     self.attack_id = def.attack_id or nil
 
+    -- remove from table hitboxes when true
+    self.flag_finished = false
+
     -- retent entities that being hit cause we just want this hitbox hit each entity 1 time.
     self.wasHitted_entities = {} -- structure lookup like self.wasHitted_entities[enermy] = true
 end
 
 function PartCircleHitbox:update(dt)
+    self:check_whether_finish(dt)
 
     if self.movement == true then 
         self.cx = self.cx + self.dx * dt
@@ -48,7 +52,8 @@ function PartCircleHitbox:update(dt)
     end
 
     if self.flag_stick == true then 
-        if self.type_slash == 'sting' then
+        if self.type_slash == 'sting' then -- chỉ cần flag_stick là đủ, ko cần type này, thật sự dùng khi nhảy chém và đổi hướng
+            -- and we can use self.def= def to gain attribute again instead of doing like below, hard to fix or add feature
             self.cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width)
             self.cy = self.entity.y + self.entity.height * 2/3 - 3
             self.start_angle = self.entity.direction == 'right' and math.rad(-5) or math.rad(175)
@@ -57,11 +62,15 @@ function PartCircleHitbox:update(dt)
     end
 end
 
-function PartCircleHitbox:delete(dt)
-    self.time_accumulate = self.time_accumulate + dt 
+function PartCircleHitbox:check_whether_finish(dt)
+    self.time_accumulate = self.time_accumulate + dt     
     if self.time_disappear and self.time_accumulate >= self.time_disappear then
-        return true 
+        self.flag_finished = true 
     end
+end
+
+function PartCircleHitbox:isFinished()
+    return self.flag_finished
 end
 
 function PartCircleHitbox:collide_rectangle(target)

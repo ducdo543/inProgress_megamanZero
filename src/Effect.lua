@@ -19,6 +19,10 @@ function Effect:init(def)
     })
 
     self.timer = #self.anime.frames * self.anime.interval
+
+    -- remove from table effectsAfterPlayer when true
+    self.flag_finished = false
+
 end
 
 
