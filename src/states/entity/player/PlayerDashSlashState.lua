@@ -18,6 +18,7 @@ function PlayerDashSlashState:enter(params)
     local anim = self.entity.currentAnimation
     self.entity.offsetX = anim.offsetX
     self.entity.offsetY = anim.offsetY
+    print(anim.looping)
 
     -- insert hitbox
 
@@ -40,7 +41,7 @@ function PlayerDashSlashState:update(dt)
 
     -- dashSlash distance = 36 -> 0.24s is max
     self.time_accumulate = self.time_accumulate + dt
-    if self.time_accumulate > 36/self.entity.dashSpeed then
+    if self.time_accumulate > 255/self.entity.dashSpeed then
         if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
             self.entity:changeState('walk', {delay_dashJump = 0.5})
             self.entity.y = self.entity.y - 10

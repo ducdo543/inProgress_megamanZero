@@ -47,6 +47,7 @@ function PlayerNormalSlashState:update(dt)
         }))
 
         self.flag_normalSlash[1] = false
+
     end
 
     if self.flag_normalSlash[2] == true then 

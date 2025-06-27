@@ -135,7 +135,6 @@ function Enermy2Death1State:update(dt)
 
     -- to delete enermy from table entities when it done
     if self.smoke1 and self.smoke2 then
-        print('dead work')
         self.entity.dead = true
     end
 

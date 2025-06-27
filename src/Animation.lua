@@ -5,10 +5,16 @@ function Animation:init(def)
     self.frames = def.frames
     self.interval = def.interval
     self.ratio = def.ratio
+    -- self.looping = def.looping == false and false or true
     self.timer = 0
     self.currentFrame = 1
 
-    self.looping = def.looping or true
+    if def.looping == false then
+        self.looping = def.looping
+    else
+        self.looping = true
+    end
+
     -- count number of looping
     self.timesPlayed = 0 
 

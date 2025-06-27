@@ -31,6 +31,7 @@ function Entity:createAnimations(animations)
             frames = animationDef.frames,
             interval = animationDef.interval,
             ratio = animationDef.ratio,
+            looping = animationDef.looping,
             special_frames = animationDef.special_frames or nil,
             special_interval = animationDef.special_interval or nil,
             offsetX = animationDef.offsetX,
