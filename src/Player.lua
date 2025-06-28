@@ -47,9 +47,9 @@ end
 
 function Player:render()
     Entity.render(self)
-    -- for _, hitbox in ipairs(self.hitboxes) do 
-    --     hitbox:render()
-    -- end
+    for _, hitbox in ipairs(self.hitboxes) do 
+        hitbox:render()
+    end
 
     for i, effect in ipairs(self.effectsAfterPlayer) do
         effect:render()

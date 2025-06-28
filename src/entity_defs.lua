@@ -23,7 +23,9 @@ ENTITY_DEFS = {
                 interval = 0.07,
                 texture = 'player-jump-fall',
                 ratio = 25/(155-15), -- height virtual = 25, height window size = 140
-                special_frames = {5}
+                special_frames = {5},
+                offsetX = 8,
+                offsetY = 3
             },
             ['fall'] = {
                 frames = {7, 8, 9, 10},

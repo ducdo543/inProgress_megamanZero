@@ -5,12 +5,7 @@ function PlayState:init()
     self.regenerate_enemies = {} -- have conditions to generate enemies after some time
     -- Example: self.regenerate_enemies = {key1 = {..., ...},
     --                                     key2 = {..., ...}}
-    self.regenerate_enemies = {
-        generateEnermy2 = {time_accumulate = 0,
-            time_create = 0.1, 
-            func_regenerate = function() return self:generateEnermy2() end, 
-            enemies = {}}
-    }
+    self:regenerateEnermy()
 
     self.gravityAmount = GRAVITY
     self.player = Player({
@@ -160,6 +155,15 @@ function PlayState:update(dt)
             end
         end
     end
+end
+
+function PlayState:regenerateEnermy()
+    self.regenerate_enemies = {
+        generateEnermy2 = {time_accumulate = 0,
+            time_create = 0.1, 
+            func_regenerate = function() return self:generateEnermy2() end, 
+            enemies = {}}
+    }
 end
 
 function PlayState:generateEnermy2()

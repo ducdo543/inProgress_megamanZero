@@ -1,6 +1,11 @@
 PartCircleHitbox = Class{}
 
 function PartCircleHitbox:init(def)
+    if type(def) == 'function' then 
+        self.lazy_def = def 
+        def = def()
+    end
+
     self.cx = def.cx -- central point of circle
     self.cy = def.cy
     self.radius = def.radius 
@@ -21,6 +26,10 @@ function PartCircleHitbox:init(def)
 
     -- flag stick hitbox with player during slash state
     self.flag_stick = def.flag_stick
+    if self.flag_stick == true then 
+        assert(self.lazy_def, 'missing lazy_def, def must be call back function')
+    end
+
     self.entity = def.entity -- receive player position
 
     -- to delete hitbox after some time 
@@ -33,7 +42,7 @@ function PartCircleHitbox:init(def)
     -- what damage hitbox cause
     self.damage = def.damage or 0
 
-    -- what attack_id is mark in hitbox 
+    -- what attack_id is mark in hitbox to find and remove the same attack_id when done
     self.attack_id = def.attack_id or nil
 
     -- remove from table hitboxes when true
@@ -52,13 +61,20 @@ function PartCircleHitbox:update(dt)
     end
 
     if self.flag_stick == true then 
-        if self.type_slash == 'sting' then -- chỉ cần flag_stick là đủ, ko cần type này, thật sự dùng khi nhảy chém và đổi hướng
+
+        -- if self.type_slash == 'sting' then -- chỉ cần flag_stick là đủ, ko cần type này, thật sự dùng khi nhảy chém và đổi hướng
             -- and we can use self.def= def to gain attribute again instead of doing like below, hard to fix or add feature
-            self.cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width)
-            self.cy = self.entity.y + self.entity.height * 2/3 - 3
-            self.start_angle = self.entity.direction == 'right' and math.rad(-5) or math.rad(175)
-            self.end_angle = self.start_angle + self.cover_angle
-        end
+        -- self.cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width)
+        -- self.cy = self.entity.y + self.entity.height * 2/3 - 3
+        -- self.start_angle = self.entity.direction == 'right' and math.rad(-5) or math.rad(175)
+        -- self.end_angle = self.start_angle + self.cover_angle
+        
+        local lazy_def = self.lazy_def()
+        self.cx = lazy_def.cx 
+        self.cy = lazy_def.cy 
+        self.start_angle = math.rad(lazy_def.start_angle)
+        self.end_angle = math.rad(lazy_def.start_angle + lazy_def.cover_angle)
+        
     end
 end
 

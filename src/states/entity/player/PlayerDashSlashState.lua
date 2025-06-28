@@ -23,7 +23,6 @@ function PlayerDashSlashState:enter(params)
     local anim = self.entity.currentAnimation
     self.entity.offsetX = anim.offsetX
     self.entity.offsetY = anim.offsetY
-    print(anim.looping)
 
     -- insert hitbox
     self:insertHitbox()

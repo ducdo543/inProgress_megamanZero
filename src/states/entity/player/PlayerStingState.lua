@@ -20,20 +20,19 @@ end
 function PlayerStingState:enter(params)
     self.entity:changeAnimation("sting")
     -- insert hitbox
-    table.insert(self.entity.hitboxes, PartCircleHitbox({
-        cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
-        cy = self.entity.y + self.entity.height * 2/3 - 3,
-        radius = 38,
-        start_angle = self.entity.direction == 'right' and (-5) or (175),
-        cover_angle = 10,
-        dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
-        dy = 0,
-        flag_stick = true,
-        entity = self.entity,
-        type_slash = "sting",
-        can_push = true
-    }))
-    
+    table.insert(self.entity.hitboxes, PartCircleHitbox(function()
+        return {
+            cx = self.entity.direction == 'right' and (self.entity.x) or (self.entity.x + self.entity.width),
+            cy = self.entity.y + self.entity.height * 2/3 - 3,
+            radius = 38,
+            start_angle = self.entity.direction == 'right' and (-5) or (175),
+            cover_angle = 10,
+            dx = self.entity.direction == 'right' and self.entity.dashSpeed or -self.entity.dashSpeed,
+            dy = 0,
+            flag_stick = true,
+            can_push = true
+        }
+    end))
 end
 
 function PlayerStingState:update(dt)

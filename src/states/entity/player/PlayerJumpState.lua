@@ -4,12 +4,17 @@ function PlayerJumpState:init(player, gravity)
     self.entity = player
     self.gravity = gravity
 
-    self.entity:changeAnimation('jump')
-
     self.entity.dy = self.entity.jump_velocity
 
-    self.entity.offsetX = 8 -- 40/5
-    self.entity.offsetY = 3 -- 15/5
+
+end
+
+function PlayerJumpState:enter(params)
+    self.entity:changeAnimation('jump')
+    -- get offset
+    local anim = self.entity.currentAnimation
+    self.entity.offsetX = anim.offsetX
+    self.entity.offsetY = anim.offsetY
 end
 
 function PlayerJumpState:update(dt)
@@ -22,10 +27,12 @@ function PlayerJumpState:update(dt)
     -- want almost fall is 0.07s before fall,
     -- => almost fall before fall 4.2 frames
     -- => almost fall after 20.8 (25 - 4.2) frames => .dy = -25.2
-    local frames_to_almostFall = (- self.entity.jump_velocity/self.gravity) - (0.07/(dt))
-    local velocityY_when_almostFall = self.entity.jump_velocity + frames_to_almostFall * self.gravity
-    if self.entity.dy >= velocityY_when_almostFall then
-        self.entity.currentAnimation.flag_specialAnimation = true
+    if self.entity.currentAnimation.texture == 'player-jump-fall' then
+        local frames_to_almostFall = (- self.entity.jump_velocity/self.gravity) - (0.07/(dt))
+        local velocityY_when_almostFall = self.entity.jump_velocity + frames_to_almostFall * self.gravity
+        if self.entity.dy >= velocityY_when_almostFall then
+            self.entity.currentAnimation.flag_specialAnimation = true
+        end
     end
 
     if self.entity.flag_doubleJump == true then
@@ -67,6 +74,92 @@ function PlayerJumpState:update(dt)
         self.entity.direction = 'right'
         self.entity.x = self.entity.x + self.entity.dx * dt
     end
+
+    -- air slash
+    if self.flag_canAirSlash == true then 
+        if love.keyboard.wasPressed('c') then 
+            self.flag_canAirSlash = false
+
+            --change animation
+            self.entity:changeAnimation('dash-slash')
+            -- get offset
+            local anim = self.entity.currentAnimation
+            self.entity.offsetX = anim.offsetX
+            self.entity.offsetY = anim.offsetY
+
+            --insert hitbox
+            self:insertHitbox()
+        end
+    elseif not self.flag_canAirSlash then 
+        if self.hitbox1 == nil or self.hitbox1.isFinished then 
+            self.flag_canAirSlash = true 
+        end
+        -- if self.hitbox1 and self.hitbox1.isFinished then
+        --     if self.entity.currentAnimation.texture == 'player-dash-slash' then
+        --         self.entity:changeAnimation('jump')
+        --     end
+        -- end 
+    end
+
+
+end
+
+function PlayerJumpState:insertHitbox()
+    local attack_id = os.clock()
+    self.hitbox1 = PartCircleHitbox(function()
+        return {
+            cx = self.entity.direction == 'right' and self.entity.x or (self.entity.x + self.entity.width),
+            cy = self.entity.y + self.entity.height - 2,
+            radius = 6,
+            start_angle = self.entity.direction == 'right' and (0) or (30),
+            cover_angle = 150,
+            dx = 0,
+            dy = 0,
+            movement = false,
+            attack_id = attack_id,
+            time_disappear = 1,
+            flag_stick = true,
+            damage = 2
+        }
+    end)
+
+    table.insert(self.entity.hitboxes, self.hitbox1)
+    -- add arc
+    self.hitbox2 = PartCircleHitbox(function()
+        return {
+            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+            cy = self.entity.y + 4,
+            radius = 12,
+            start_angle = (-180),
+            cover_angle = 180,
+            dx = 0,
+            dy = 0,
+            movement = false,
+            attack_id = attack_id,
+            time_disappear = 0.15,
+            flag_stick = true,
+            damage = 2
+        }
+    end)
+    table.insert(self.entity.hitboxes, self.hitbox2)
+    -- add arc
+    self.hitbox3 = PartCircleHitbox(function()
+        return {
+            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+            cy = self.entity.y + 4,
+            radius = 12,
+            start_angle = 0,
+            cover_angle = 180,
+            dx = 0,
+            dy = 0,
+            movement = true,
+            attack_id = attack_id,
+            time_disappear = 0.15,
+            flag_stick = true,
+            damage = 2
+        }
+    end)
+    table.insert(self.entity.hitboxes, self.hitbox3)
 end
 
 function PlayerJumpState:render()
