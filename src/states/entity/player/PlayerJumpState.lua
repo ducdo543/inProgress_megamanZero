@@ -52,12 +52,14 @@ function PlayerJumpState:update(dt)
     if self.entity.dy >= 0 then
         self.entity.dy = 0
         self.entity:changeState('fall')
+        return 
     end
 
     if self.entity.dy >= -130 then
         if not love.keyboard.isDown('x') then
             self.entity.dy = 0
             self.entity:changeState('fall')
+            return
         end
     end
 
@@ -91,15 +93,19 @@ function PlayerJumpState:update(dt)
             self:insertHitbox()
         end
     elseif not self.flag_canAirSlash then 
-        if self.hitbox1 == nil or self.hitbox1.isFinished then 
+        if self.hitbox1 == nil or self.hitbox1.flag_finished then 
             self.flag_canAirSlash = true 
-        end
-        -- if self.hitbox1 and self.hitbox1.isFinished then
-        --     if self.entity.currentAnimation.texture == 'player-dash-slash' then
-        --         self.entity:changeAnimation('jump')
-        --     end
-        -- end 
+        end 
     end
+    if self.hitbox1 and self.hitbox1.flag_finished then
+        if self.entity.currentAnimation.texture == 'player-dash-slash' then
+            self.entity:changeAnimation('jump')
+            local anim = self.entity.currentAnimation
+            self.entity.offsetX = anim.offsetX
+            self.entity.offsetY = anim.offsetY
+        end
+    end 
+    
 
 
 end
@@ -117,7 +123,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = false,
             attack_id = attack_id,
-            time_disappear = 1,
+            time_disappear = 0.26,
             flag_stick = true,
             damage = 2
         }
@@ -136,7 +142,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = false,
             attack_id = attack_id,
-            time_disappear = 0.15,
+            time_disappear = 0.26,
             flag_stick = true,
             damage = 2
         }
@@ -154,7 +160,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = true,
             attack_id = attack_id,
-            time_disappear = 0.15,
+            time_disappear = 0.26,
             flag_stick = true,
             damage = 2
         }
