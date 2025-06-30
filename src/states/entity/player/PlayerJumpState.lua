@@ -13,6 +13,9 @@ function PlayerJumpState:init(player, gravity)
     self.hitbox1 = nil 
     self.hitbox2 = nil
     self.hitbox3 = nil
+
+    -- sometimes, we press x and c simutaneously so c can not be received when we actually go into jump state, so we use isDown for the first attemp
+    self.first_attemp = true
 end
 
 function PlayerJumpState:enter(params)
@@ -41,16 +44,49 @@ function PlayerJumpState:update(dt)
         end
     end
 
+    -- air slash
+    if self.flag_canAirSlash == true then 
+        if love.keyboard.wasPressed('c') or (love.keyboard.isDown('c') and self.first_attemp) then 
+            self.first_attemp = false 
+            
+            self.flag_canAirSlash = false
+
+            --change animation
+            self.entity:changeAnimation('dash-slash')
+            -- get offset
+            local anim = self.entity.currentAnimation
+            self.entity.offsetX = anim.offsetX
+            self.entity.offsetY = anim.offsetY
+
+            --insert hitbox
+            self:insertHitbox()
+        end
+    elseif not self.flag_canAirSlash then 
+        if self.hitbox1 == nil or self.hitbox1.flag_finished then 
+            self.flag_canAirSlash = true 
+        end 
+    end
+    if self.hitbox1 and self.hitbox1.flag_finished then
+        if self.entity.currentAnimation.texture == 'player-dash-slash' then
+            self.entity:changeAnimation('jump')
+            local anim = self.entity.currentAnimation
+            self.entity.offsetX = anim.offsetX
+            self.entity.offsetY = anim.offsetY
+        end
+    end     
+
     if self.entity.flag_doubleJump == true then
         if love.keyboard.isDown('z') then 
             if love.keyboard.wasPressed('x') then
                 self.entity.flag_dashJump = true 
                 self.entity:changeState('jump')
                 self.entity.flag_doubleJump = false
+                return
             end
         elseif love.keyboard.wasPressed('x') then
             self.entity:changeState('jump')
             self.entity.flag_doubleJump = false
+            return
         end
     end
 
@@ -109,34 +145,6 @@ function PlayerJumpState:update(dt)
         self.entity.x = self.entity.x + self.entity.dx * dt
     end
 
-    -- air slash
-    if self.flag_canAirSlash == true then 
-        if love.keyboard.wasPressed('c') then 
-            self.flag_canAirSlash = false
-
-            --change animation
-            self.entity:changeAnimation('dash-slash')
-            -- get offset
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
-
-            --insert hitbox
-            self:insertHitbox()
-        end
-    elseif not self.flag_canAirSlash then 
-        if self.hitbox1 == nil or self.hitbox1.flag_finished then 
-            self.flag_canAirSlash = true 
-        end 
-    end
-    if self.hitbox1 and self.hitbox1.flag_finished then
-        if self.entity.currentAnimation.texture == 'player-dash-slash' then
-            self.entity:changeAnimation('jump')
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
-        end
-    end 
     
 
 
@@ -165,9 +173,9 @@ function PlayerJumpState:insertHitbox()
     -- add arc
     self.hitbox2 = PartCircleHitbox(function()
         return {
-            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 12 or self.entity.x - 12,
             cy = self.entity.y + 4,
-            radius = 12,
+            radius = 14,
             start_angle = (-180),
             cover_angle = 180,
             dx = 0,
@@ -183,9 +191,9 @@ function PlayerJumpState:insertHitbox()
     -- add arc
     self.hitbox3 = PartCircleHitbox(function()
         return {
-            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
+            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 12 or self.entity.x - 12,
             cy = self.entity.y + 4,
-            radius = 12,
+            radius = 14,
             start_angle = 0,
             cover_angle = 180,
             dx = 0,

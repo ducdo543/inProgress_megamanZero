@@ -14,7 +14,7 @@ end
 function PlayerFallState:enter(params)
     -- delay anime
     if params then
-        if params.delay_animation then
+        if params.delay_animation ~= nil then
             self.delay_animation = params.delay_animation
             self.flag_delayAnime = true
         end
@@ -30,11 +30,12 @@ function PlayerFallState:enter(params)
 
     -- receive some attributes from previous jump state
     if params then 
-        if params.flag_canAirSlash then
+        if params.flag_canAirSlash ~= nil then
             self.flag_canAirSlash = params.flag_canAirSlash
             self.hitbox1 = params.hitbox1 
             self.hitbox2 = params.hitbox2
-            self.hitbox3 = params.hitbox3         
+            self.hitbox3 = params.hitbox3      
+            print(self.flag_canAirSlash)   
         end
     end
 
