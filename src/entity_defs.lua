@@ -33,7 +33,9 @@ ENTITY_DEFS = {
                 texture = 'player-jump-fall',
                 ratio = 25/(155-15),
                 special_frames = {11, 12}, 
-                special_interval = 0.07
+                special_interval = 0.07,
+                offsetX = 8,
+                offsetY = 3                
             },
             ['dash'] = {
                 frames = {2, 3, 4 ,5},

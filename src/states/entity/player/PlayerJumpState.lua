@@ -6,7 +6,13 @@ function PlayerJumpState:init(player, gravity)
 
     self.entity.dy = self.entity.jump_velocity
 
+    self.time_accumulate = 0
 
+    --attribute for air slash
+    self.flag_canAirSlash = false 
+    self.hitbox1 = nil 
+    self.hitbox2 = nil
+    self.hitbox3 = nil
 end
 
 function PlayerJumpState:enter(params)
@@ -48,17 +54,43 @@ function PlayerJumpState:update(dt)
         end
     end
 
+    -- accumulate time when we're in dash slash
+    if self.entity.currentAnimation.texture == 'player-jump-fall' then 
+        self.time_accumulate = 0
+    elseif self.entity.currentAnimation.texture == 'player-dash-slash' then 
+        self.time_accumulate = self.time_accumulate + dt 
+    end
+    -- calculate delay_animation if we're in dash slash
+    local delay_animation = 0
+    local anim = self.entity.currentAnimation
+    if anim.texture == 'player-dash-slash' then 
+        delay_animation = (#anim.frames - 1) * anim.interval - self.time_accumulate
+    end
+
     -- go into the falling state when y velocity is positive
     if self.entity.dy >= 0 then
         self.entity.dy = 0
-        self.entity:changeState('fall')
+
+        self.entity:changeState('fall', {
+            delay_animation = delay_animation,
+            flag_canAirSlash = self.flag_canAirSlash,
+            hitbox1 = self.hitbox1,
+            hitbox2 = self.hitbox2,
+            hitbox3 = self.hitbox3
+        })
         return 
     end
 
     if self.entity.dy >= -130 then
         if not love.keyboard.isDown('x') then
             self.entity.dy = 0
-            self.entity:changeState('fall')
+            self.entity:changeState('fall', {
+                delay_animation = delay_animation,
+                flag_canAirSlash = self.flag_canAirSlash,
+                hitbox1 = self.hitbox1,
+                hitbox2 = self.hitbox2,
+                hitbox3 = self.hitbox3
+            })
             return
         end
     end
