@@ -152,6 +152,10 @@ end
 
 function PlayerJumpState:insertHitbox()
     local attack_id = os.clock()
+
+    local anim = self.entity.currentAnimation
+    local time_animation = (#anim.frames - 1) * anim.interval
+
     self.hitbox1 = PartCircleHitbox(function()
         return {
             cx = self.entity.direction == 'right' and self.entity.x or (self.entity.x + self.entity.width),
@@ -163,7 +167,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = false,
             attack_id = attack_id,
-            time_disappear = 0.26,
+            time_disappear = time_animation,
             flag_stick = true,
             damage = 2
         }
@@ -182,7 +186,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = false,
             attack_id = attack_id,
-            time_disappear = 0.26,
+            time_disappear = time_animation,
             flag_stick = true,
             damage = 2
         }
@@ -200,7 +204,7 @@ function PlayerJumpState:insertHitbox()
             dy = 0,
             movement = true,
             attack_id = attack_id,
-            time_disappear = 0.26,
+            time_disappear = time_animation,
             flag_stick = true,
             damage = 2
         }
