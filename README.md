@@ -5,3 +5,6 @@
 2. Unzip or install Love2D, add PATH for file .exe
 3. Open terminal, go to the folder containing file 'main.lua'
 4. The command to run the game: love .
+
+## Video demo
+![Image](https://github.com/user-attachments/assets/897218d7-74e6-4e30-b9e5-ac34ef2b4aa9) 
