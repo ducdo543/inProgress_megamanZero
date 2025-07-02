@@ -7,4 +7,4 @@
 4. The command to run the game: love .
 
 ## Video demo
-![Image](https://github.com/user-attachments/assets/897218d7-74e6-4e30-b9e5-ac34ef2b4aa9) 
+![Image](https://github.com/user-attachments/assets/102a6214-a82e-45ac-b930-65c3218b8fd0)
