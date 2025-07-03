@@ -19,6 +19,7 @@ ENTITY_DEFS = {
                 offsetY = 0
             },
             ['jump'] = {
+                name = 'player-jump',
                 frames = {1, 2, 3, 4},
                 interval = 0.07,
                 texture = 'player-jump-fall',
@@ -100,6 +101,15 @@ ENTITY_DEFS = {
                 ratio = 1/5,
                 offsetX = 10,
                 offsetY = 14
+            },
+            ['air-slash'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7, 8},
+                interval = 0.03,
+                texture = 'player-air-slash',
+                looping = false,
+                ratio = 1/5,
+                offsetX = 12,
+                offsetY = 10
             }
         }
     },

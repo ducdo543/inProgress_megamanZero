@@ -36,7 +36,7 @@ function PlayerJumpState:update(dt)
     -- want almost fall is 0.07s before fall,
     -- => almost fall before fall 4.2 frames
     -- => almost fall after 20.8 (25 - 4.2) frames => .dy = -25.2
-    if self.entity.currentAnimation.texture == 'player-jump-fall' then
+    if self.entity.currentAnimation.name == 'player-jump' then
         local frames_to_almostFall = (- self.entity.jump_velocity/self.gravity) - (0.07/(dt))
         local velocityY_when_almostFall = self.entity.jump_velocity + frames_to_almostFall * self.gravity
         if self.entity.dy >= velocityY_when_almostFall then
@@ -52,7 +52,7 @@ function PlayerJumpState:update(dt)
             self.flag_canAirSlash = false
 
             --change animation
-            self.entity:changeAnimation('dash-slash')
+            self.entity:changeAnimation('air-slash')
             -- get offset
             local anim = self.entity.currentAnimation
             self.entity.offsetX = anim.offsetX
@@ -67,8 +67,8 @@ function PlayerJumpState:update(dt)
         end 
     end
     if self.hitbox1 and self.hitbox1.flag_finished then
-        if self.entity.currentAnimation.texture == 'player-dash-slash' then
-            self.entity:changeAnimation('jump')
+        if self.entity.currentAnimation.texture == 'player-air-slash' then
+            self.entity:changeAnimation('fall')
             local anim = self.entity.currentAnimation
             self.entity.offsetX = anim.offsetX
             self.entity.offsetY = anim.offsetY
@@ -90,16 +90,16 @@ function PlayerJumpState:update(dt)
         end
     end
 
-    -- accumulate time when we're in dash slash
+    -- accumulate time when we're in air slash
     if self.entity.currentAnimation.texture == 'player-jump-fall' then 
         self.time_accumulate = 0
-    elseif self.entity.currentAnimation.texture == 'player-dash-slash' then 
+    elseif self.entity.currentAnimation.texture == 'player-air-slash' then 
         self.time_accumulate = self.time_accumulate + dt 
     end
-    -- calculate delay_animation if we're in dash slash
+    -- calculate delay_animation if we're in air slash
     local delay_animation = 0
     local anim = self.entity.currentAnimation
-    if anim.texture == 'player-dash-slash' then 
+    if anim.texture == 'player-air-slash' then 
         delay_animation = (#anim.frames - 1) * anim.interval - self.time_accumulate
     end
 
@@ -158,11 +158,11 @@ function PlayerJumpState:insertHitbox()
 
     self.hitbox1 = PartCircleHitbox(function()
         return {
-            cx = self.entity.direction == 'right' and self.entity.x or (self.entity.x + self.entity.width),
-            cy = self.entity.y + self.entity.height - 2,
-            radius = 6,
-            start_angle = self.entity.direction == 'right' and (0) or (30),
-            cover_angle = 150,
+            cx = self.entity.x + self.entity.width/2,
+            cy = self.entity.y + 15,
+            radius = 22,
+            start_angle = self.entity.direction == 'right' and (-140) or (140),
+            cover_angle = 180,
             dx = 0,
             dy = 0,
             movement = false,
@@ -174,42 +174,7 @@ function PlayerJumpState:insertHitbox()
     end)
 
     table.insert(self.entity.hitboxes, self.hitbox1)
-    -- add arc
-    self.hitbox2 = PartCircleHitbox(function()
-        return {
-            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 12 or self.entity.x - 12,
-            cy = self.entity.y + 4,
-            radius = 14,
-            start_angle = (-180),
-            cover_angle = 180,
-            dx = 0,
-            dy = 0,
-            movement = false,
-            attack_id = attack_id,
-            time_disappear = time_animation,
-            flag_stick = true,
-            damage = 2
-        }
-    end)
-    table.insert(self.entity.hitboxes, self.hitbox2)
-    -- add arc
-    self.hitbox3 = PartCircleHitbox(function()
-        return {
-            cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 12 or self.entity.x - 12,
-            cy = self.entity.y + 4,
-            radius = 14,
-            start_angle = 0,
-            cover_angle = 180,
-            dx = 0,
-            dy = 0,
-            movement = true,
-            attack_id = attack_id,
-            time_disappear = time_animation,
-            flag_stick = true,
-            damage = 2
-        }
-    end)
-    table.insert(self.entity.hitboxes, self.hitbox3)
+
 end
 
 function PlayerJumpState:render()

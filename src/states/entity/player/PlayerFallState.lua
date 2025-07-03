@@ -112,7 +112,7 @@ function PlayerFallState:update(dt)
             self.flag_canAirSlash = false
 
             --change animation
-            self.entity:changeAnimation('dash-slash')
+            self.entity:changeAnimation('air-slash')
             -- get offset
             local anim = self.entity.currentAnimation
             self.entity.offsetX = anim.offsetX
@@ -127,7 +127,7 @@ function PlayerFallState:update(dt)
         end 
     end
     if self.hitbox1 and self.hitbox1.flag_finished then
-        if self.entity.currentAnimation.texture == 'player-dash-slash' then
+        if self.entity.currentAnimation.texture == 'player-air-slash' then
             self.entity:changeAnimation('fall')
             local anim = self.entity.currentAnimation
             self.entity.offsetX = anim.offsetX

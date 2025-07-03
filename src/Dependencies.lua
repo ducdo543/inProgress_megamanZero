@@ -56,6 +56,7 @@ gTextures = {
     ['player-dash'] = love.graphics.newImage('graphics/player_dash.png'),
     ['player-sting'] = love.graphics.newImage('graphics/player_sting.png'),
     ['player-dash-slash'] = love.graphics.newImage('graphics/player_dashSlash.png'),
+    ['player-air-slash'] = love.graphics.newImage('graphics/player_airSlash.png'),
     ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png'),
     ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png'),
 
@@ -74,6 +75,7 @@ gFrames = {
     ['player-dash'] = GenerateQuads(gTextures['player-dash'], 150, 150),
     ['player-sting'] = GenerateQuads(gTextures['player-sting'], 270, 170),
     ['player-dash-slash'] = GenerateQuads(gTextures['player-dash-slash'], 300, 200),
+    ['player-air-slash'] = GenerateQuads(gTextures['player-air-slash'], 250, 200),
     ['player-normal-slash'] = GenerateQuads(gTextures['player-normal-slash'], 280, 220),
     ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140),
 
