@@ -55,11 +55,11 @@ gTextures = {
     ['player-jump-fall'] = love.graphics.newImage('graphics/player_jump_fall.png'),
     ['player-dash'] = love.graphics.newImage('graphics/player_dash.png'),
     ['player-sting'] = love.graphics.newImage('graphics/player_sting.png'),
-    ['player-dash-slash'] = love.graphics.newImage('graphics/dashSlash_blue.png'),
+    ['player-dash-slash'] = love.graphics.newImage('graphics/player_dashSlash.png'),
     ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png'),
     ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png'),
 
-    ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted_blue.png'),
+    ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted.png'),
     ['enermy2-death1'] = love.graphics.newImage('graphics/enermy2_death1.png'),
     ['effect-explode'] = love.graphics.newImage('graphics/effect_explode.png'),
     ['effect-smoke'] = love.graphics.newImage('graphics/effect_smoke.png')
