@@ -23,6 +23,7 @@ function Player:init(def)
     self.process_energyAbsorb = false
     self.time_releaseEnergy = 2 
     self.timeEnergy_accumulate = 0
+    self.timeEnergy_startAccumulate = 0.5
     self.animeEnergyAbsorb = nil
     self.animationDef = ENTITY_DEFS['effects'].animations['explode']
     self.hitbox1 = nil
@@ -34,7 +35,7 @@ function Player:update(dt)
     if love.keyboard.isDown('c') then 
         self.timeEnergy_accumulate = self.timeEnergy_accumulate + dt 
 
-        if self.process_energyAbsorb == false then  
+        if self.process_energyAbsorb == false and self.timeEnergy_accumulate >= self.timeEnergy_startAccumulate then  
             self.process_energyAbsorb = true  
             -- add anime
             self.animeEnergyAbsorb = Animation({
@@ -49,17 +50,30 @@ function Player:update(dt)
             })            
         end
         
-        if self.time_accumulate >= self.time_releaseEnergy then 
-            -- self:insertHitbox()
+        if self.timeEnergy_accumulate >= self.time_releaseEnergy then 
+            local anim = self.currentAnimation
+            if anim.texture == 'player-idle' then
+                self.can_releaseEnergy = true
+            else
+                self.can_releaseEnergy = false
+            end
         end
 
-        self.animeEnergyAbsorb:update(dt)
+        if self.animeEnergyAbsorb then
+            self.animeEnergyAbsorb:update(dt)
+        end
 
     elseif not love.keyboard.isDown('c') then 
+        if self.can_releaseEnergy == true then 
+            self:insertHitbox()
+        else
+            self.hitbox1 = nil
+        end
+        -- reset some 
+        self.can_releaseEnergy = false
         self.process_energyAbsorb = false 
-        self.time_accumulate = 0 
+        self.timeEnergy_accumulate = 0 
         self.animeEnergyAbsorb = nil
-        self.hitbox1 = nil
     end
 
     Entity.update(self, dt)
@@ -87,11 +101,38 @@ function Player:update(dt)
     end
 end
 
+function Player:insertHitbox()
+    local attack_id = os.clock()
+
+    local anim = self.currentAnimation
+    local time_animation = (#anim.frames - 1) * anim.interval
+
+    self.hitbox1 = PartCircleHitbox(function()
+        return {
+            cx = self.x + self.width/2,
+            cy = self.y + 15,
+            radius = 22,
+            start_angle = self.direction == 'right' and (-140) or (140),
+            cover_angle = 180,
+            dx = 0,
+            dy = 0,
+            movement = false,
+            attack_id = attack_id,
+            time_disappear = time_animation,
+            flag_stick = true,
+            damage = 2
+        }
+    end)
+
+    table.insert(self.hitboxes, self.hitbox1)
+
+end
+
 function Player:render()
     Entity.render(self)
-    -- for _, hitbox in ipairs(self.hitboxes) do 
-    --     hitbox:render()
-    -- end
+    for _, hitbox in ipairs(self.hitboxes) do 
+        hitbox:render()
+    end
 
     for i, effect in ipairs(self.effectsAfterPlayer) do
         effect:render()
