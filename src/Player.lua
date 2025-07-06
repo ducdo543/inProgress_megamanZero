@@ -26,7 +26,6 @@ function Player:init(def)
     self.timeEnergy_startAccumulate = 0.5
     self.animeEnergyAbsorb = nil
     self.animationDef = ENTITY_DEFS['effects'].animations['explode']
-    self.hitbox1 = nil
 
 end
 
@@ -52,31 +51,23 @@ function Player:update(dt)
         
         if self.timeEnergy_accumulate >= self.time_releaseEnergy then 
             local anim = self.currentAnimation
-            if anim.texture == 'player-idle' then
-                self.can_releaseEnergy = true
-            else
-                self.can_releaseEnergy = false
-            end
+            self.can_releaseEnergy = true
         end
 
         if self.animeEnergyAbsorb then
             self.animeEnergyAbsorb:update(dt)
         end
+    end
 
-    elseif not love.keyboard.isDown('c') then 
-        if self.can_releaseEnergy == true then 
-            self:insertHitbox()
-        else
-            self.hitbox1 = nil
-        end
-        -- reset some 
+    Entity.update(self, dt)
+
+    if not love.keyboard.isDown('c') then 
+        -- reset some attributes
         self.can_releaseEnergy = false
         self.process_energyAbsorb = false 
         self.timeEnergy_accumulate = 0 
         self.animeEnergyAbsorb = nil
     end
-
-    Entity.update(self, dt)
 
     for i = #self.hitboxes, 1, -1 do 
         local hitbox = self.hitboxes[i]

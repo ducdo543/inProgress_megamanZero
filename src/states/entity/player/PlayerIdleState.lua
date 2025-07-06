@@ -78,6 +78,13 @@ function PlayerIdleState:update(dt)
         return
     end
 
+    -- 
+    if not love.keyboard.isDown('c') then 
+        if self.entity.can_releaseEnergy == true then 
+            self.entity:changeState('dash-slash')
+            return
+        end
+    end
     -- check if collide
     -- ...
 end
