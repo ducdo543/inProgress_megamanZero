@@ -17,9 +17,51 @@ function Player:init(def)
 
     -- to render effects after player so that effects image overwritten player
     self.effectsAfterPlayer = {}
+
+    -- attribute for energyAbsorb and release
+    self.can_releaseEnergy = false 
+    self.process_energyAbsorb = false
+    self.time_releaseEnergy = 2 
+    self.timeEnergy_accumulate = 0
+    self.animeEnergyAbsorb = nil
+    self.animationDef = ENTITY_DEFS['effects'].animations['explode']
+    self.hitbox1 = nil
+
 end
 
 function Player:update(dt)
+    -- for energyAbsorb and release
+    if love.keyboard.isDown('c') then 
+        self.timeEnergy_accumulate = self.timeEnergy_accumulate + dt 
+
+        if self.process_energyAbsorb == false then  
+            self.process_energyAbsorb = true  
+            -- add anime
+            self.animeEnergyAbsorb = Animation({
+                texture = self.animationDef.texture,
+                frames = self.animationDef.frames,
+                interval = self.animationDef.interval,
+                ratio = self.animationDef.ratio,
+                special_frames = self.animationDef.special_frames or nil,
+                special_interval = self.animationDef.special_interval or nil,
+                offsetX = self.animationDef.offsetX,
+                offsetY = self.animationDef.offsetY        
+            })            
+        end
+        
+        if self.time_accumulate >= self.time_releaseEnergy then 
+            -- self:insertHitbox()
+        end
+
+        self.animeEnergyAbsorb:update(dt)
+
+    elseif not love.keyboard.isDown('c') then 
+        self.process_energyAbsorb = false 
+        self.time_accumulate = 0 
+        self.animeEnergyAbsorb = nil
+        self.hitbox1 = nil
+    end
+
     Entity.update(self, dt)
 
     for i = #self.hitboxes, 1, -1 do 
@@ -53,5 +95,11 @@ function Player:render()
 
     for i, effect in ipairs(self.effectsAfterPlayer) do
         effect:render()
+    end
+
+    -- effect render test
+    if self.animeEnergyAbsorb then
+        love.graphics.draw(gTextures[self.animeEnergyAbsorb.texture], gFrames[self.animeEnergyAbsorb.texture][self.animeEnergyAbsorb:getCurrentFrame()],
+            math.floor(self.x - self.animeEnergyAbsorb.offsetX), math.floor(self.y - self.animeEnergyAbsorb.offsetY), 0 , self.animeEnergyAbsorb.ratio, self.animeEnergyAbsorb.ratio)
     end
 end
