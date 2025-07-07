@@ -164,6 +164,24 @@ ENTITY_DEFS = {
                 ratio = 1/5,
                 offsetX = 5,
                 offsetY = 5
+            },
+            ['energyAbsorb1'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                texture = 'effect-energyAbsorb',
+                interval = 0.04,
+                looping = true,
+                ratio = 1/5,
+                offsetX = 20,
+                offsetY = 20
+            },
+            ['energyAbsorb2'] = {
+                frames = {14, 13, 12, 11},
+                texture = 'effect-energyAbsorb',
+                interval = 0.04,
+                looping = true,
+                ratio = 1/5,
+                offsetX = 20,
+                offsetY = 20
             }
         }
     }

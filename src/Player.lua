@@ -28,7 +28,8 @@ function Player:init(def)
     self.timeEnergy_accumulate = 0
     self.timeEnergy_startAccumulate = 0.5
     self.animeEnergyAbsorb = nil
-    self.effect_energyAbsorb = nil
+    self.effect_energyAbsorb1 = nil
+    self.effect_energyAbsorb2 = nil
 end
 
 function Player:update(dt)
@@ -39,21 +40,33 @@ function Player:update(dt)
         if self.process_energyAbsorb == false and self.timeEnergy_accumulate >= self.timeEnergy_startAccumulate then  
             self.process_energyAbsorb = true  
             -- add anime
-            self.effect_energyAbsorb = Effect(function()
+            self.effect_energyAbsorb1 = Effect(function()
                 return {
                 x = self.x + self.width / 2,
                 y = self.y + self.height / 2,
-                animationDef = ENTITY_DEFS['effects'].animations['smoke'],
+                animationDef = ENTITY_DEFS['effects'].animations['energyAbsorb1'],
                 flag_stick = true,
                 disappear = false
                 }
             end)
-            table.insert(self.effectsBeforePlayer, self.effect_energyAbsorb)
+            table.insert(self.effectsAfterPlayer, self.effect_energyAbsorb1)
           
         end
         
         if self.timeEnergy_accumulate >= self.time_releaseEnergy then 
             self.can_releaseEnergy = true
+            if self.effect_energyAbsorb2 == nil then
+                self.effect_energyAbsorb2 = Effect(function()
+                    return {
+                    x = self.x + self.width / 2,
+                    y = self.y + self.height / 2,
+                    animationDef = ENTITY_DEFS['effects'].animations['energyAbsorb2'],
+                    flag_stick = true,
+                    disappear = false
+                    }
+                end)
+                table.insert(self.effectsAfterPlayer, self.effect_energyAbsorb2)
+            end
         end
 
     end
@@ -82,8 +95,13 @@ function Player:update(dt)
         self.timeEnergy_accumulate = 0 
         self.animeEnergyAbsorb = nil
         
-        if self.effect_energyAbsorb then
-            self.effect_energyAbsorb.flag_finished = true
+        if self.effect_energyAbsorb1 then
+            self.effect_energyAbsorb1.flag_finished = true -- to delete in table effects
+            self.effect_energyAbsorb1 = nil
+        end        
+        if self.effect_energyAbsorb2 then
+            self.effect_energyAbsorb2.flag_finished = true
+            self.effect_energyAbsorb2 = nil
         end
     end
 

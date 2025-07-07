@@ -63,7 +63,8 @@ gTextures = {
     ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted.png'),
     ['enermy2-death1'] = love.graphics.newImage('graphics/enermy2_death1.png'),
     ['effect-explode'] = love.graphics.newImage('graphics/effect_explode.png'),
-    ['effect-smoke'] = love.graphics.newImage('graphics/effect_smoke.png')
+    ['effect-smoke'] = love.graphics.newImage('graphics/effect_smoke.png'),
+    ['effect-energyAbsorb'] = love.graphics.newImage('graphics/effect_energyAbsorb.png')
 
 
 }
@@ -82,7 +83,8 @@ gFrames = {
     ['enermy2-idle-beHitted'] = GenerateQuads(gTextures['enermy2-idle-beHitted'], 130, 150),
     ['enermy2-death1'] = GenerateQuads(gTextures['enermy2-death1'], 200, 150),
     ['effect-explode'] = GenerateQuads(gTextures['effect-explode'], 200, 150),
-    ['effect-smoke'] = GenerateQuads(gTextures['effect-smoke'], 50, 100)
+    ['effect-smoke'] = GenerateQuads(gTextures['effect-smoke'], 50, 100),
+    ['effect-energyAbsorb'] = GenerateQuads(gTextures['effect-energyAbsorb'], 200, 250)
 }
 
 gFonts = {
