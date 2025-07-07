@@ -1,10 +1,25 @@
 Effect = Class{}
 
 function Effect:init(def)
+    if type(def) == 'function' then 
+        self.lazy_def = def 
+        def = def()
+    end
+
     self.x = def.x 
     self.y = def.y 
     self.anime = nil
 
+    if def.disappear == false then
+        self.disappear = def.disappear
+    else 
+        self.disappear = true 
+    end
+
+    self.flag_stick = def.flag_stick or false
+    if self.flag_stick == true then 
+        assert(self.lazy_def, 'missing lazy_def, def must be a call-back function')
+    end
 
     self.animationDef = def.animationDef
     self.anime = Animation({
@@ -18,7 +33,9 @@ function Effect:init(def)
         offsetY = self.animationDef.offsetY        
     })
 
-    self.timer = #self.anime.frames * self.anime.interval
+    if self.disappear then
+        self.timer = #self.anime.frames * self.anime.interval
+    end
 
     -- remove from table effectsAfterPlayer when true
     self.flag_finished = false
@@ -27,12 +44,24 @@ end
 
 
 function Effect:update(dt)
-    self.timer = self.timer - dt
+    if self.disappear then
+        self.timer = self.timer - dt
+        if self.timer <= 0 then 
+            self.flag_finished = true 
+        end
+    end
+
+    if self.flag_stick == true then 
+        local lazy_def = self.lazy_def()
+        self.x = lazy_def.x 
+        self.y = lazy_def.y 
+    end
+    
     self.anime:update(dt)
 end
 
 function Effect:isFinished()
-    return self.timer <= 0
+    return self.flag_finished
 end
 
 function Effect:render()

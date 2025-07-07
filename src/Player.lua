@@ -15,6 +15,9 @@ function Player:init(def)
     -- retent hitboxes in table
     self.hitboxes = {}
 
+    -- to render effects before player so that player image overwritten effects
+    self.effectsBeforePlayer = {}
+
     -- to render effects after player so that effects image overwritten player
     self.effectsAfterPlayer = {}
 
@@ -25,8 +28,7 @@ function Player:init(def)
     self.timeEnergy_accumulate = 0
     self.timeEnergy_startAccumulate = 0.5
     self.animeEnergyAbsorb = nil
-    self.animationDef = ENTITY_DEFS['effects'].animations['explode']
-
+    self.effect_energyAbsorb = nil
 end
 
 function Player:update(dt)
@@ -37,38 +39,55 @@ function Player:update(dt)
         if self.process_energyAbsorb == false and self.timeEnergy_accumulate >= self.timeEnergy_startAccumulate then  
             self.process_energyAbsorb = true  
             -- add anime
-            self.animeEnergyAbsorb = Animation({
-                texture = self.animationDef.texture,
-                frames = self.animationDef.frames,
-                interval = self.animationDef.interval,
-                ratio = self.animationDef.ratio,
-                special_frames = self.animationDef.special_frames or nil,
-                special_interval = self.animationDef.special_interval or nil,
-                offsetX = self.animationDef.offsetX,
-                offsetY = self.animationDef.offsetY        
-            })            
+            self.effect_energyAbsorb = Effect(function()
+                return {
+                x = self.x + self.width / 2,
+                y = self.y + self.height / 2,
+                animationDef = ENTITY_DEFS['effects'].animations['smoke'],
+                flag_stick = true,
+                disappear = false
+                }
+            end)
+            table.insert(self.effectsBeforePlayer, self.effect_energyAbsorb)
+          
         end
         
         if self.timeEnergy_accumulate >= self.time_releaseEnergy then 
-            local anim = self.currentAnimation
             self.can_releaseEnergy = true
         end
 
-        if self.animeEnergyAbsorb then
-            self.animeEnergyAbsorb:update(dt)
+    end
+
+    -- self.effectsBeforePlayer
+    for i = #self.effectsBeforePlayer, 1, -1 do
+        local effect = self.effectsBeforePlayer[i]
+        if effect then
+            effect:update(dt)
+            if effect:isFinished() then
+                table.remove(self.effectsBeforePlayer, i)
+            end
+        else
+            table.remove(self.effectsBeforePlayer, i)  -- optional: clean nils
         end
     end
 
+    -- update player
     Entity.update(self, dt)
 
+    -- reset energyAbsorb
     if not love.keyboard.isDown('c') then 
         -- reset some attributes
         self.can_releaseEnergy = false
         self.process_energyAbsorb = false 
         self.timeEnergy_accumulate = 0 
         self.animeEnergyAbsorb = nil
+        
+        if self.effect_energyAbsorb then
+            self.effect_energyAbsorb.flag_finished = true
+        end
     end
 
+    -- hitbox
     for i = #self.hitboxes, 1, -1 do 
         local hitbox = self.hitboxes[i]
         hitbox:update(dt)
@@ -79,6 +98,7 @@ function Player:update(dt)
         end
     end
 
+    -- self.effectsAfterPlayer
     for i = #self.effectsAfterPlayer, 1, -1 do
         local effect = self.effectsAfterPlayer[i]
         if effect then
@@ -120,7 +140,12 @@ function Player:insertHitbox()
 end
 
 function Player:render()
+    for i, effect in ipairs(self.effectsBeforePlayer) do
+        effect:render()
+    end
+
     Entity.render(self)
+
     for _, hitbox in ipairs(self.hitboxes) do 
         hitbox:render()
     end
@@ -129,9 +154,4 @@ function Player:render()
         effect:render()
     end
 
-    -- effect render test
-    if self.animeEnergyAbsorb then
-        love.graphics.draw(gTextures[self.animeEnergyAbsorb.texture], gFrames[self.animeEnergyAbsorb.texture][self.animeEnergyAbsorb:getCurrentFrame()],
-            math.floor(self.x - self.animeEnergyAbsorb.offsetX), math.floor(self.y - self.animeEnergyAbsorb.offsetY), 0 , self.animeEnergyAbsorb.ratio, self.animeEnergyAbsorb.ratio)
-    end
 end

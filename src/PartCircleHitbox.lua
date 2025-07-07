@@ -27,7 +27,7 @@ function PartCircleHitbox:init(def)
     -- flag stick hitbox with player during slash state
     self.flag_stick = def.flag_stick
     if self.flag_stick == true then 
-        assert(self.lazy_def, 'missing lazy_def, def must be call back function')
+        assert(self.lazy_def, 'missing lazy_def, def must be a call-back function')
     end
 
     self.entity = def.entity -- receive player position

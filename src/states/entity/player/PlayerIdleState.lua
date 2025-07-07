@@ -2,7 +2,7 @@ PlayerIdleState = Class{__includes = EntityIdleState}
 
 function PlayerIdleState:init(player)
     EntityIdleState.init(self, player)
-    self.entity.offsetX = 8 -- 40/5
+    self.entity.offsetX = 4 -- 20/5
     self.entity.offsetY = 0
 
     -- attribute to delay Animation
@@ -78,7 +78,7 @@ function PlayerIdleState:update(dt)
         return
     end
 
-    -- 
+    -- change to another normalSlash state after accumulate energy 
     if not love.keyboard.isDown('c') then 
         if self.entity.can_releaseEnergy == true then 
             self.entity:changeState('dash-slash')
