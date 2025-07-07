@@ -116,6 +116,19 @@ function PlayerDashSlashState:insertHitbox()
         damage = 2
     })
     table.insert(self.entity.hitboxes, self.hitbox3)
+
+    -- test hitbox
+    self.hitbox4 = RectangleHitbox({
+        x = self.entity.direction == 'right' and self.entity.x + self.entity.width or self.entity.x,
+        y = self.entity.y,
+        width = 10,
+        height = 10,
+        dx = 0,
+        dy = 0,
+        movement = false,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox4)
 end
 
 function PlayerDashSlashState:exit()

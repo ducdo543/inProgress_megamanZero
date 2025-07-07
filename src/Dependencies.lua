@@ -16,6 +16,8 @@ require 'src/entity_defs'
 require 'src/Animation'
 require 'src/Util'
 require 'src/PartCircleHitbox'
+require 'src/BaseHitbox'
+require 'src/RectangleHitbox'
 
 -- game states
 require 'src/states/BaseState'
