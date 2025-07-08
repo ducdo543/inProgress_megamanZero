@@ -35,7 +35,6 @@ function PlayerFallState:enter(params)
             self.hitbox1 = params.hitbox1 
             self.hitbox2 = params.hitbox2
             self.hitbox3 = params.hitbox3      
-            print(self.flag_canAirSlash)   
         end
     end
 

@@ -81,7 +81,7 @@ function PlayerIdleState:update(dt)
     -- change to another normalSlash state after accumulate energy 
     if not love.keyboard.isDown('c') then 
         if self.entity.can_releaseEnergy == true then 
-            self.entity:changeState('normal1-slash')
+            self.entity:changeState('load1-slash')
             return
         end
     end

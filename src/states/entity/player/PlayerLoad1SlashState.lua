@@ -1,24 +1,27 @@
-PlayerNormal1SlashState = Class{__includes = BaseState}
+PlayerLoad1SlashState = Class{__includes = BaseState}
 
-function PlayerNormal1SlashState:init(player)
+function PlayerLoad1SlashState:init(player)
     self.entity = player 
     
     self.time_accumulate = 0 
 
     --attribute for energyAbsorb release slash
     self.hitbox1 = nil 
+    self.hitbox2 = nil
 
+    -- insert hitbox 
+    self:insertHitbox()    
 end
 
-function PlayerNormal1SlashState:enter(params)
-    self.entity:changeAnimation('dash-slash')
+function PlayerLoad1SlashState:enter(params)
+    self.entity:changeAnimation('load1-slash')
     -- get offset
     local anim = self.entity.currentAnimation 
     self.entity.offsetX = anim.offsetX
     self.entity.offsetY = anim.offsetY
 end
 
-function PlayerNormal1SlashState:update(dt)
+function PlayerLoad1SlashState:update(dt)
     if love.keyboard.wasPressed('x') then
         self.entity:changeState('jump')
         return
@@ -44,7 +47,42 @@ function PlayerNormal1SlashState:update(dt)
     end
 end
 
-function PlayerNormal1SlashState:render()
+function PlayerLoad1SlashState:insertHitbox()
+    local attack_id = os.clock()
+    self.hitbox1 = RectangleHitbox({
+        x = self.entity.direction == 'right' and self.entity.x or self.entity.x + self.entity.width - 20,
+        y = self.entity.y,
+        width = 20,
+        height = 25,
+        dx = 0,
+        dy = 0,
+        movement = false,
+        attack_id = attack_id,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox1)
+
+    self.hitbox2 = RectangleHitbox({
+        x = self.entity.direction == 'right' and self.entity.x + 20 or self.entity.x + self.entity.width - 20 - 35,
+        y = self.entity.y - 25,
+        width = 35,
+        height = 55,
+        dx = 0,
+        dy = 0,
+        movement = false,
+        attack_id = attack_id,
+        damage = 2
+    })
+    table.insert(self.entity.hitboxes, self.hitbox2)
+end
+
+function PlayerLoad1SlashState:exit()
+    -- finish hitbox we want
+    self.hitbox1.flag_finished = true 
+    self.hitbox2.flag_finished = true
+end
+
+function PlayerLoad1SlashState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.direction == 'left' and self.entity.x + self.entity.offsetX + self.entity.width  or self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY), 0 , self.entity.direction == "left" and -anim.ratio or anim.ratio, anim.ratio)

@@ -24,7 +24,7 @@ function Player:init(def)
     -- attribute for energyAbsorb and release
     self.can_releaseEnergy = false 
     self.process_energyAbsorb = false
-    self.time_releaseEnergy = 2 
+    self.time_releaseEnergy = 1.5
     self.timeEnergy_accumulate = 0
     self.timeEnergy_startAccumulate = 0.5
     self.animeEnergyAbsorb = nil
@@ -164,9 +164,9 @@ function Player:render()
 
     Entity.render(self)
 
-    for _, hitbox in ipairs(self.hitboxes) do 
-        hitbox:render()
-    end
+    -- for _, hitbox in ipairs(self.hitboxes) do 
+    --     hitbox:render()
+    -- end
 
     for i, effect in ipairs(self.effectsAfterPlayer) do
         effect:render()

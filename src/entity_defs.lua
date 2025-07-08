@@ -110,6 +110,15 @@ ENTITY_DEFS = {
                 ratio = 1/5,
                 offsetX = 12,
                 offsetY = 10
+            },
+            ['load1-slash'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                interval = 0.04,
+                texture = 'player-load1-slash',
+                looping = false,
+                ratio = 1/5,
+                offsetX = 8,
+                offsetY = 30
             }
         }
     },

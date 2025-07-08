@@ -46,7 +46,7 @@ require 'src/states/entity/player/PlayerDashState'
 require 'src/states/entity/player/PlayerNormalSlashState'
 require 'src/states/entity/player/PlayerStingState'
 require 'src/states/entity/player/PlayerDashSlashState'
-require 'src/states/entity/player/PlayerNormal1SlashState'
+require 'src/states/entity/player/PlayerLoad1SlashState'
 
 require 'src/states/entity/enermy/Enermy1BeHittedState'
 require 'src/states/entity/enermy/Enermy2Death1State'
@@ -61,6 +61,7 @@ gTextures = {
     ['player-dash-slash'] = love.graphics.newImage('graphics/player_dashSlash.png'),
     ['player-air-slash'] = love.graphics.newImage('graphics/player_airSlash.png'),
     ['player-normal-slash'] = love.graphics.newImage('graphics/player_normalSlash.png'),
+    ['player-load1-slash'] = love.graphics.newImage('graphics/player_load1Slash.png'),
     ['player-beHitted'] = love.graphics.newImage('graphics/player_beHitted.png'),
 
     ['enermy2-idle-beHitted'] = love.graphics.newImage('graphics/enermy2_idleHitted.png'),
@@ -82,6 +83,7 @@ gFrames = {
     ['player-air-slash'] = GenerateQuads(gTextures['player-air-slash'], 250, 200),
     ['player-normal-slash'] = GenerateQuads(gTextures['player-normal-slash'], 280, 220),
     ['player-beHitted'] = GenerateQuads(gTextures['player-beHitted'], 140, 140),
+    ['player-load1-slash'] = GenerateQuads(gTextures['player-load1-slash'], 350, 300),
 
     ['enermy2-idle-beHitted'] = GenerateQuads(gTextures['enermy2-idle-beHitted'], 130, 150),
     ['enermy2-death1'] = GenerateQuads(gTextures['enermy2-death1'], 200, 150),
