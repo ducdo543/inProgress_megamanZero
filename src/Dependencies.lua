@@ -46,6 +46,7 @@ require 'src/states/entity/player/PlayerDashState'
 require 'src/states/entity/player/PlayerNormalSlashState'
 require 'src/states/entity/player/PlayerStingState'
 require 'src/states/entity/player/PlayerDashSlashState'
+require 'src/states/entity/player/PlayerNormal1SlashState'
 
 require 'src/states/entity/enermy/Enermy1BeHittedState'
 require 'src/states/entity/enermy/Enermy2Death1State'

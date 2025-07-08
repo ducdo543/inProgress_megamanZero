@@ -23,7 +23,12 @@ function RectangleHitbox:isFinished()
 end
 
 function RectangleHitbox:collide_rectangle(target)
-
+    if target.x > self.x + self.width or target.x + target.width < self.x or 
+        target.y > self.y + self.height or target.y + target.height < self.y then 
+            return false 
+    else
+        return true 
+    end
 end
 
 function RectangleHitbox:render()

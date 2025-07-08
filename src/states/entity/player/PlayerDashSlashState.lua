@@ -87,7 +87,7 @@ function PlayerDashSlashState:insertHitbox()
         attack_id = attack_id,
         damage = 2
     })
-    table.insert(self.entity.hitboxes, self.hitbox1)
+    -- table.insert(self.entity.hitboxes, self.hitbox1)
     -- add arc
     self.hitbox2 = PartCircleHitbox({
         cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
@@ -101,7 +101,7 @@ function PlayerDashSlashState:insertHitbox()
         attack_id = attack_id,
         damage = 2
     })
-    table.insert(self.entity.hitboxes, self.hitbox2)
+    -- table.insert(self.entity.hitboxes, self.hitbox2)
     -- add arc
     self.hitbox3 = PartCircleHitbox({
         cx = self.entity.direction == 'right' and self.entity.x + self.entity.width + 4 or self.entity.x - 4,
@@ -115,14 +115,14 @@ function PlayerDashSlashState:insertHitbox()
         attack_id = attack_id,
         damage = 2
     })
-    table.insert(self.entity.hitboxes, self.hitbox3)
+    -- table.insert(self.entity.hitboxes, self.hitbox3)
 
     -- test hitbox
     self.hitbox4 = RectangleHitbox({
         x = self.entity.direction == 'right' and self.entity.x + self.entity.width or self.entity.x,
         y = self.entity.y,
         width = 10,
-        height = 10,
+        height = 50,
         dx = 0,
         dy = 0,
         movement = false,

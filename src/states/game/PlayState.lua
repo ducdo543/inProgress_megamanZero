@@ -20,7 +20,8 @@ function PlayState:init()
             ['normal-slash'] = function() return PlayerNormalSlashState(self.player) end,
             ['sting'] = function() return PlayerStingState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
-            ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end
+            ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end,
+            ['normal1-slash'] = function() return PlayerNormal1SlashState(self.player) end
         },
         jump_velocity = ENTITY_DEFS['player'].jump_velocity,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
