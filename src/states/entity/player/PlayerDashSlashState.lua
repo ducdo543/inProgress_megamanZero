@@ -15,6 +15,7 @@ function PlayerDashSlashState:init(player)
     self.hitbox1 = nil 
     self.hitbox2 = nil
     self.hitbox3 = nil
+
 end
 
 function PlayerDashSlashState:enter(params)

@@ -20,6 +20,16 @@ function PlayerDashState:init(player)
     self.timeAnime_accumulate = 0
     self.flag_delayAnime = false
     self.delay_animation = nil
+
+    -- sometimes, we press z and c simultaneously so c can not be received when we actually go into update(dt) of jump state, so we use flag first attemp
+    -- if love.keyboard.wasPressed('c') then
+    --     self.firstAttemp_dashSlash = true
+    -- end
+    -- -- similar first attemp for pressing z and v simultaneously
+    -- if love.keyboard.wasPressed('v') then
+    --     self.firstAttemp_sting = true
+    -- end
+    -- similar first attemp for pressing z and x simultaneously
 end
 
 function PlayerDashState:enter(params)
@@ -33,6 +43,33 @@ function PlayerDashState:enter(params)
     if self.flag_delayAnime == false then
         self.entity:changeAnimation("dash")
     end
+
+    -- for simultaneously press two button
+    -- sometimes, we press z and c simultaneously so c can not be received when we actually go into update(dt) of jump state, so we use flag first attemp
+    if love.keyboard.wasPressed('c') then
+        self.entity.y = self.entity.y - 10
+        self.entity.height = self.height_idle
+        self.entity:changeState('dash-slash')
+        return
+    end
+
+    -- if pressing z and x simultaneously, transfer into jumpState immediately
+    if love.keyboard.wasPressed('x') then
+        self.entity.flag_dashJump = true
+        self.entity:changeState('jump')
+        self.entity.y = self.entity.y - 10 
+        self.entity.height = self.height_idle
+        return
+    end
+
+    -- similar first attemp for pressing z and v simultaneously
+    if love.keyboard.wasPressed('v') then
+        self.entity.y = self.entity.y - 10
+        self.entity.height = self.height_idle
+        self.entity:changeState('sting')
+        return
+    end
+
 end
 
 function PlayerDashState:update(dt)
@@ -91,7 +128,8 @@ function PlayerDashState:update(dt)
     end
 
     -- jump
-    if love.keyboard.wasPressed('x') or love.keyboard.isDown('x') then --case when press z and x simultaneously. keypressed just receive 1 key in each frame, so DashState don't know whether we also press x, so i put isDown here to cover this case
+    if love.keyboard.wasPressed('x') then 
+        self.entity.flag_dashJump = true
         self.entity:changeState('jump')
         self.entity.y = self.entity.y - 10 
         self.entity.height = self.height_idle
@@ -114,14 +152,14 @@ function PlayerDashState:update(dt)
         end
     end
 
-    if love.keyboard.wasPressed('v') or love.keyboard.isDown('v') then
+    if love.keyboard.wasPressed('v') then
         self.entity.y = self.entity.y - 10
         self.entity.height = self.height_idle
         self.entity:changeState('sting')
         return
     end
 
-    if love.keyboard.wasPressed('c') or love.keyboard.isDown('c') then
+    if love.keyboard.wasPressed('c') then
         self.entity.y = self.entity.y - 10
         self.entity.height = self.height_idle
         self.entity:changeState('dash-slash')

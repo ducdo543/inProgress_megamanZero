@@ -62,14 +62,14 @@ function PlayerIdleState:update(dt)
         return
     end
 
-    if love.keyboard.wasPressed('x') then
-        self.entity:changeState('jump')
+    if love.keyboard.wasPressed('z') then
+        self.entity:changeAnimation('special_idlewalkToDash')
+        self.entity:changeState('dash', {delay_animation = 0.07})
         return
     end
 
-    if love.keyboard.wasPressed('z') then
-        self.entity:changeState('dash', {delay_animation = 0.07})
-        self.entity:changeAnimation('special_idlewalkToDash')
+    if love.keyboard.wasPressed('x') then
+        self.entity:changeState('jump')
         return
     end
 

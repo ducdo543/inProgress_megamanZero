@@ -14,8 +14,10 @@ function PlayerJumpState:init(player, gravity)
     self.hitbox2 = nil
     self.hitbox3 = nil
 
-    -- sometimes, we press x and c simutaneously so c can not be received when we actually go into jump state, so we use isDown for the first attemp
-    self.first_attemp = true
+    -- sometimes, we press x and c simutaneously so c can not be received when we actually go into update(dt) of jump state, so we use flag_first attemp
+    if love.keyboard.wasPressed('c') then
+        self.first_attemp = true
+    end
 end
 
 function PlayerJumpState:enter(params)
@@ -46,7 +48,7 @@ function PlayerJumpState:update(dt)
 
     -- air slash
     if self.flag_canAirSlash == true then 
-        if love.keyboard.wasPressed('c') or (love.keyboard.isDown('c') and self.first_attemp) then 
+        if love.keyboard.wasPressed('c') or (self.first_attemp) then 
             self.first_attemp = false 
             
             self.flag_canAirSlash = false
