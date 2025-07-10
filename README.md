@@ -6,5 +6,8 @@
 3. Open terminal, go to the folder containing file 'main.lua'
 4. The command to run the game: love .
 
+## Link sprites
+https://www.sprites-inc.co.uk/sprite.php?local=/Zero/ 
+
 ## Video demo
 ![Image](https://github.com/user-attachments/assets/102a6214-a82e-45ac-b930-65c3218b8fd0)
