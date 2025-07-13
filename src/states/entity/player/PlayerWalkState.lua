@@ -59,5 +59,13 @@ function PlayerWalkState:update(dt)
         return
     end
 
+    -- change to load1-Slash state after accumulate energy 
+    if not love.keyboard.isDown('c') then 
+        if self.entity.can_releaseEnergy == true then 
+            self.entity:changeState('load1-slash')
+            return
+        end
+    end
+
 end
 

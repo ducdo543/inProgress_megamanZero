@@ -1,8 +1,7 @@
 PlayerJumpState = Class{__includes = BaseState}
 
 function PlayerJumpState:init(player, gravity)
-    self.entity = player
-    self.gravity = gravity
+    PlayerBaseJumpState.init(self, player, gravity)
 
     self.entity.dy = self.entity.jump_velocity
 
@@ -29,9 +28,7 @@ function PlayerJumpState:enter(params)
 end
 
 function PlayerJumpState:update(dt)
-    self.entity.dy = self.entity.dy + self.gravity
-    self.entity.y = self.entity.y + (self.entity.dy * dt)
-    self.entity.y = self.entity.y + (self.entity.dy * dt)
+    PlayerBaseJumpState.update(self, dt)
 
     -- change special animation when almost fall,
     -- calculate fall (dy = 0) after 25 frame when gravity = 6,
@@ -77,21 +74,6 @@ function PlayerJumpState:update(dt)
         end
     end     
 
-    if self.entity.flag_doubleJump == true then
-        if love.keyboard.isDown('z') then 
-            if love.keyboard.wasPressed('x') then
-                self.entity.flag_dashJump = true 
-                self.entity:changeState('jump')
-                self.entity.flag_doubleJump = false
-                return
-            end
-        elseif love.keyboard.wasPressed('x') then
-            self.entity:changeState('jump')
-            self.entity.flag_doubleJump = false
-            return
-        end
-    end
-
     -- accumulate time when we're in air slash
     if self.entity.currentAnimation.texture == 'player-jump-fall' then 
         self.time_accumulate = 0
@@ -118,38 +100,6 @@ function PlayerJumpState:update(dt)
         })
         return 
     end
-
-    if self.entity.dy >= -130 then
-        if not love.keyboard.isDown('x') then
-            self.entity.dy = 0
-            self.entity:changeState('fall', {
-                delay_animation = delay_animation,
-                flag_canAirSlash = self.flag_canAirSlash,
-                hitbox1 = self.hitbox1,
-                hitbox2 = self.hitbox2,
-                hitbox3 = self.hitbox3
-            })
-            return
-        end
-    end
-
-
-    if self.entity.flag_dashJump == true then
-        self.entity.dx = self.entity.dashSpeed
-    else
-        self.entity.dx = self.entity.walkSpeed
-    end
-    if love.keyboard.isDown('left') then 
-        self.entity.direction = 'left'
-        self.entity.x = self.entity.x - self.entity.dx * dt
-    elseif love.keyboard.isDown('right') then 
-        self.entity.direction = 'right'
-        self.entity.x = self.entity.x + self.entity.dx * dt
-    end
-
-    
-
-
 end
 
 function PlayerJumpState:insertHitbox()
