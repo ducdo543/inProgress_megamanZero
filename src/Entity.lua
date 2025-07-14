@@ -49,6 +49,15 @@ end
 function Entity:changeAnimation(name)
     self.animations_motion = self:createAnimations(self.animations) -- recreate Animation() for animations to turn back frame 1 first
     self.currentAnimation = self.animations_motion[name]
+
+    -- get offset
+    local anim = self.currentAnimation
+    if anim.offsetX then
+        self.offsetX = anim.offsetX
+    end
+    if anim.offsetY then 
+        self.offsetY = anim.offsetY
+    end
 end
 
 function Entity:update(dt)

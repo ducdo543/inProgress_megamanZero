@@ -21,10 +21,6 @@ end
 
 function PlayerJumpState:enter(params)
     self.entity:changeAnimation('jump')
-    -- get offset
-    local anim = self.entity.currentAnimation
-    self.entity.offsetX = anim.offsetX
-    self.entity.offsetY = anim.offsetY
 end
 
 function PlayerJumpState:update(dt)
@@ -52,10 +48,6 @@ function PlayerJumpState:update(dt)
 
             --change animation
             self.entity:changeAnimation('air-slash')
-            -- get offset
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
 
             --insert hitbox
             self:insertHitbox()
@@ -68,9 +60,6 @@ function PlayerJumpState:update(dt)
     if self.hitbox1 and self.hitbox1.flag_finished then
         if self.entity.currentAnimation.texture == 'player-air-slash' then
             self.entity:changeAnimation('fall')
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
         end
     end     
 
@@ -99,6 +88,14 @@ function PlayerJumpState:update(dt)
             hitbox3 = self.hitbox3
         })
         return 
+    end
+
+    -- change to load2-Slash state after accumulate energy 
+    if not love.keyboard.isDown('c') then 
+        if self.entity.can_releaseEnergy == true then 
+            self.entity:changeState('load2-slash')
+            return
+        end
     end
 end
 

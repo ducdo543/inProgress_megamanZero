@@ -20,10 +20,6 @@ end
 
 function PlayerDashSlashState:enter(params)
     self.entity:changeAnimation('dash-slash')
-    -- get offset
-    local anim = self.entity.currentAnimation
-    self.entity.offsetX = anim.offsetX
-    self.entity.offsetY = anim.offsetY
 
     -- insert hitbox
     self:insertHitbox()

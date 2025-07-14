@@ -6,9 +6,6 @@ end
 
 function EntityWalkState:enter(params)
     self.entity:changeAnimation('walk')
-    local anim = self.entity.currentAnimation
-    self.entity.offsetX = anim.offsetX
-    self.entity.offsetY = anim.offsetY
 end
 
 function EntityWalkState:update(dt)

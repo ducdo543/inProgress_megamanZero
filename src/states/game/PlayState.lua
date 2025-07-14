@@ -21,7 +21,8 @@ function PlayState:init()
             ['sting'] = function() return PlayerStingState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
             ['fall'] = function() return PlayerFallState(self.player, self.gravityAmount) end,
-            ['load1-slash'] = function() return PlayerLoad1SlashState(self.player) end
+            ['load1-slash'] = function() return PlayerLoad1SlashState(self.player) end,
+            ['load2-slash'] = function() return PlayerLoad2SlashState(self.player, self.gravityAmount) end
         },
         jump_velocity = ENTITY_DEFS['player'].jump_velocity,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,

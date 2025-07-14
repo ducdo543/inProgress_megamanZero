@@ -22,10 +22,6 @@ function PlayerFallState:enter(params)
 
     if self.flag_delayAnime == false then
         self.entity:changeAnimation("fall")
-        -- get offset
-        local anim = self.entity.currentAnimation
-        self.entity.offsetX = anim.offsetX
-        self.entity.offsetY = anim.offsetY
     end
 
     -- receive some attributes from previous jump state
@@ -46,11 +42,7 @@ function PlayerFallState:update(dt)
         self.timeAnime_accumulate = self.timeAnime_accumulate + dt
         if self.timeAnime_accumulate >= self.delay_animation then 
             self.flag_delayAnime = false
-            self.entity:changeAnimation("fall")
-            -- get offset
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY            
+            self.entity:changeAnimation("fall")         
         end
     end
 
@@ -112,10 +104,6 @@ function PlayerFallState:update(dt)
 
             --change animation
             self.entity:changeAnimation('air-slash')
-            -- get offset
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
 
             --insert hitbox
             self:insertHitbox()
@@ -128,9 +116,6 @@ function PlayerFallState:update(dt)
     if self.hitbox1 and self.hitbox1.flag_finished then
         if self.entity.currentAnimation.texture == 'player-air-slash' then
             self.entity:changeAnimation('fall')
-            local anim = self.entity.currentAnimation
-            self.entity.offsetX = anim.offsetX
-            self.entity.offsetY = anim.offsetY
         end
     end 
 end

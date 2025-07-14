@@ -15,10 +15,6 @@ end
 
 function PlayerLoad1SlashState:enter(params)
     self.entity:changeAnimation('load1-slash')
-    -- get offset
-    local anim = self.entity.currentAnimation 
-    self.entity.offsetX = anim.offsetX
-    self.entity.offsetY = anim.offsetY
 end
 
 function PlayerLoad1SlashState:update(dt)

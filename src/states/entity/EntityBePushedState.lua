@@ -22,9 +22,6 @@ function EntityBePushedState:enter(params)
 
 
     self.entity:changeAnimation('beHitted')
-    local anim = self.entity.currentAnimation
-    self.entity.offsetX = anim.offsetX
-    self.entity.offsetY = anim.offsetY
 end
 
 function EntityBePushedState:update(dt)
