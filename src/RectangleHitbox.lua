@@ -15,7 +15,15 @@ function RectangleHitbox:init(def)
 end
 
 function RectangleHitbox:update(dt)
-
+    if self.movement == true then 
+        self.x = self.x + self.dx * dt
+        self.y = self.y + self.dy * dt 
+    end
+    if self.flag_stick == true then 
+        local lazy_def = self.lazy_def()
+        self.x = lazy_def.x 
+        self.y = lazy_def.y 
+    end
 end
 
 function RectangleHitbox:isFinished()

@@ -164,6 +164,7 @@ function Player:render()
 
     Entity.render(self)
 
+    -- for checking hitbox positions
     -- for _, hitbox in ipairs(self.hitboxes) do 
     --     hitbox:render()
     -- end

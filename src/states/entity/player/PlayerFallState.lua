@@ -1,9 +1,7 @@
 PlayerFallState = Class{__includes = BaseState}
 
 function PlayerFallState:init(player, gravity)
-    self.entity = player 
-    self.gravity = gravity 
-
+    PlayerBaseFallState.init(self, player, gravity)
 
     -- attribute to delay Animation
     self.timeAnime_accumulate = 0
@@ -46,56 +44,7 @@ function PlayerFallState:update(dt)
         end
     end
 
-    self.entity.dy = self.entity.dy + self.gravity
-    self.entity.y = self.entity.y + (self.entity.dy * dt)
-
-    --double jump
-    if self.entity.flag_doubleJump == true then
-        if love.keyboard.isDown('z') then 
-            if love.keyboard.wasPressed('x') then
-                self.entity.flag_dashJump = true 
-                self.entity.flag_doubleJump = false
-                self.entity:changeState('jump')
-                return
-            end
-        elseif love.keyboard.wasPressed('x') then
-            self.entity.flag_doubleJump = false
-            self.entity:changeState('jump')
-            return
-        end
-    end
-    -- return idle or walk when touch the ground
-    if self.entity.y >= 100 then
-        self.entity.y = 100
-        self.entity.dy = 0
-        --reset dashjump
-        self.entity.flag_dashJump = false
-        self.entity:changeAnimation("fall")
-
-        -- set the player to be walk or idle 
-        if love.keyboard.isDown('left') or love.keyboard.isDown('right') then
-            self.entity:changeState('walk')
-            self.entity.flag_doubleJump = true
-            return
-        else
-            self.entity:changeState('idle', {delay_animation = 0.14}) 
-            self.entity.currentAnimation.flag_specialAnimation = true
-            self.entity.flag_doubleJump = true
-            return
-        end
-    end 
-    if self.entity.flag_dashJump == true then
-        self.entity.dx = self.entity.dashSpeed
-    else
-        self.entity.dx = self.entity.walkSpeed
-    end
-    if love.keyboard.isDown('left') then 
-        self.entity.direction = 'left'
-        self.entity.x = self.entity.x - self.entity.dx * dt
-    elseif love.keyboard.isDown('right') then 
-        self.entity.direction = 'right'
-        self.entity.x = self.entity.x + self.entity.dx * dt
-    end
+    PlayerBaseFallState.update(self, dt)
 
     -- air slash
     if self.flag_canAirSlash == true then 
@@ -118,6 +67,14 @@ function PlayerFallState:update(dt)
             self.entity:changeAnimation('fall')
         end
     end 
+
+    -- change to load2-Slash state after accumulate energy 
+    if not love.keyboard.isDown('c') then 
+        if self.entity.can_releaseEnergy == true then 
+            self.entity:changeState('load2-slash')
+            return
+        end
+    end
 end
 
 function PlayerFallState:insertHitbox()
@@ -129,3 +86,4 @@ function PlayerFallState:render()
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.direction == 'left' and self.entity.x + self.entity.offsetX + self.entity.width  or self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY), 0 , self.entity.direction == "left" and -anim.ratio or anim.ratio, anim.ratio)
 end
+

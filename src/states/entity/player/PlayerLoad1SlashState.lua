@@ -2,10 +2,9 @@ PlayerLoad1SlashState = Class{__includes = BaseState}
 
 function PlayerLoad1SlashState:init(player)
     self.entity = player 
-    
-    self.time_accumulate = 0 
 
     --attribute for energyAbsorb release slash
+    self.time_accumulate = 0 
     self.hitbox1 = nil 
     self.hitbox2 = nil
 
@@ -29,7 +28,7 @@ function PlayerLoad1SlashState:update(dt)
         return
     end
 
-    -- changeState when done
+    -- changeState when done slash
     self.time_accumulate = self.time_accumulate + dt
     local anim = self.entity.currentAnimation
     if self.time_accumulate >= (#anim.frames - 1) * anim.interval then
@@ -59,9 +58,9 @@ function PlayerLoad1SlashState:insertHitbox()
     table.insert(self.entity.hitboxes, self.hitbox1)
 
     self.hitbox2 = RectangleHitbox({
-        x = self.entity.direction == 'right' and self.entity.x + 20 or self.entity.x + self.entity.width - 20 - 35,
+        x = self.entity.direction == 'right' and self.entity.x + 20 or self.entity.x + self.entity.width - 20 - 32,
         y = self.entity.y - 25,
-        width = 35,
+        width = 32,
         height = 55,
         dx = 0,
         dy = 0,
